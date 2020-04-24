@@ -12,3 +12,7 @@ output:
 documentclass: book  
 github-repo: connie-zhang/pet-adoption
 ---
+
+# Preface
+
+Hello! Welcome to the bookdown of my STAT 454 Bayesian Statistics project!
