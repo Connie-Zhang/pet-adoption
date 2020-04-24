@@ -10,5 +10,5 @@ output:
         collapse: section
         scroll_highlight: yes
 documentclass: book  
-github-repo: connie-zhang.github.io/pet-adoption
+github-repo: connie-zhang/pet-adoption
 ---
