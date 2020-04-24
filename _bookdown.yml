@@ -3,5 +3,4 @@ language:
   ui:
     chapter_name: "Chapter "
 rmd_files: ['index.Rmd']
-delete_merged_file: true
-output_dir: "docs"
+delete_merged_file: True
