@@ -10,6 +10,6 @@ output:
         collapse: section
         scroll_highlight: yes
 documentclass: book  
-github-repo: connie-zhang/connie-zhang.github.io/bayes-pet-adoption
+github-repo: connie-zhang.github.io/pet-adoption
 ---
 # Welcome!
