@@ -2,5 +2,5 @@ book_filename: "pet-adoption"
 language:
   ui:
     chapter_name: "Chapter "
-rmd_files: ['index.Rmd']
+rmd_files: ['index.Rmd','01_Motivation.Rmd']
 delete_merged_file: True
