@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Modelling | STAT 454 Bayesian Statistics - Pet Adoption</title>
+  <meta name="description" content="Chapter 7 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  <meta name="generator" content="bookdown 0.18.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="connie-zhang/pet-adoption" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  
+  
+  
+
+<meta name="author" content="Connie Zhang, Spring 2020 Macalester College" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ordered-logistic-regression.html"/>
+<link rel="next" href="final-model.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
+<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#why-this"><i class="fa fa-check"></i><b>2.1</b> Why this?</a></li>
+<li class="chapter" data-level="2.2" data-path="motivation.html"><a href="motivation.html#a-snapshot"><i class="fa fa-check"></i><b>2.2</b> A snapshot</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>3</b> Data Source</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-source.html"><a href="data-source.html#variable-table"><i class="fa fa-check"></i><b>3.1</b> Variable Table</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>4</b> Data Cleaning</a></li>
+<li class="chapter" data-level="5" data-path="visualizations.html"><a href="visualizations.html"><i class="fa fa-check"></i><b>5</b> Visualizations</a><ul>
+<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impression"><i class="fa fa-check"></i><b>5.1</b> General Impression</a></li>
+<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Ordered Logistic Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html#proportional-odds-assumption"><i class="fa fa-check"></i><b>6.1</b> Proportional Odds Assumption</a></li>
+<li class="chapter" data-level="6.2" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html#interpretation"><i class="fa fa-check"></i><b>6.2</b> Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>7</b> Modelling</a><ul>
+<li class="chapter" data-level="7.1" data-path="modelling.html"><a href="modelling.html#model-1"><i class="fa fa-check"></i><b>7.1</b> Model 1</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="modelling.html"><a href="modelling.html#posterior-inference"><i class="fa fa-check"></i><b>7.1.1</b> Posterior Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="modelling.html"><a href="modelling.html#model-2"><i class="fa fa-check"></i><b>7.2</b> Model 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="modelling.html"><a href="modelling.html#model-building"><i class="fa fa-check"></i><b>7.2.1</b> Model Building</a></li>
+<li class="chapter" data-level="7.2.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-1"><i class="fa fa-check"></i><b>7.2.2</b> Posterior Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="modelling.html"><a href="modelling.html#model-3"><i class="fa fa-check"></i><b>7.3</b> Model 3</a></li>
+<li class="chapter" data-level="7.4" data-path="modelling.html"><a href="modelling.html#making-some-adjustments"><i class="fa fa-check"></i><b>7.4</b> Making some adjustments</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="final-model.html"><a href="final-model.html"><i class="fa fa-check"></i><b>8</b> Final Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="final-model.html"><a href="final-model.html#discussion"><i class="fa fa-check"></i><b>8.1</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="shiny-apps.html"><a href="shiny-apps.html"><i class="fa fa-check"></i><b>9</b> Shiny Apps!</a><ul>
+<li class="chapter" data-level="9.1" data-path="shiny-apps.html"><a href="shiny-apps.html#user-input"><i class="fa fa-check"></i><b>9.1</b> User Input</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="final-reflections.html"><a href="final-reflections.html"><i class="fa fa-check"></i><b>10</b> Final Reflections</a><ul>
+<li class="chapter" data-level="10.1" data-path="final-reflections.html"><a href="final-reflections.html#advice-for-first-time-capstone-people"><i class="fa fa-check"></i><b>10.1</b> Advice for first time capstone people</a></li>
+<li class="chapter" data-level="10.2" data-path="final-reflections.html"><a href="final-reflections.html#acknowledgements"><i class="fa fa-check"></i><b>10.2</b> Acknowledgements</a></li>
+<li class="chapter" data-level="10.3" data-path="final-reflections.html"><a href="final-reflections.html#citations"><i class="fa fa-check"></i><b>10.3</b> Citations</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">STAT 454 Bayesian Statistics - Pet Adoption</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelling" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Modelling</h1>
+<p>First, let’s load some essential package.</p>
+<p>We will also create a sample of 1000 for faster modelling.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">load</span>(<span class="st">&quot;adoption.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3">mysample &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb1-4" title="4">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div id="model-1" class="section level2">
+<h2><span class="header-section-number">7.1</span> Model 1</h2>
+<p>From fig 1- fig n, we see that health factors and type can be useful factors in predicting adoption speed.
+For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which will give us a standard uniform prior on R2.
+### Model Building
+<span class="math display">\[
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_6)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_5x_5
+\\\text{ where }x_i\text{ for i from 1 to 6 is the indicator for cat, minor injury, severe injury,}
+\\\text{sterilization, vaccination, and dewormed.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...\]</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">model1 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>Dewormed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div id="posterior-inference" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">summary</span>(model1)</a></code></pre></div>
+<pre><code>## 
+## Model Info:
+##  function:     stan_polr
+##  family:       ordered [logistic]
+##  formula:      AdoptionSpeed ~ Type + Health + Sterilized + Vaccinated + Dewormed
+##  algorithm:    sampling
+##  sample:       10000 (posterior sample size)
+##  priors:       see help(&#39;prior_summary&#39;)
+##  observations: 812
+## 
+## Estimates:
+##               mean   sd   10%   50%   90%
+## Type1       -0.3    0.1 -0.5  -0.3  -0.1 
+## Health1      0.4    0.4  0.0   0.4   0.9 
+## Health2      2.3    1.4  0.7   2.2   4.0 
+## Sterilized1  0.7    0.2  0.5   0.7   0.9 
+## Vaccinated1  0.3    0.2  0.1   0.3   0.5 
+## Dewormed1    0.0    0.2 -0.2   0.0   0.2 
+## 0|1         -3.4    0.2 -3.7  -3.3  -3.1 
+## 1|2         -1.1    0.1 -1.2  -1.1  -0.9 
+## 2|3          0.3    0.1  0.1   0.3   0.4 
+## 3|4          1.3    0.1  1.1   1.3   1.5 
+## 
+## Fit Diagnostics:
+##              mean   sd   10%   50%   90%
+## mean_PPD:0 0.0    0.0  0.0   0.0   0.0  
+## mean_PPD:1 0.2    0.0  0.2   0.2   0.2  
+## mean_PPD:2 0.3    0.0  0.3   0.3   0.3  
+## mean_PPD:3 0.2    0.0  0.2   0.2   0.2  
+## mean_PPD:4 0.3    0.0  0.2   0.3   0.3  
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help(&#39;summary.stanreg&#39;)).
+## 
+## MCMC diagnostics
+##               mcse Rhat n_eff
+## Type1         0.0  1.0  14595
+## Health1       0.0  1.0  12493
+## Health2       0.0  1.0   9358
+## Sterilized1   0.0  1.0  11432
+## Vaccinated1   0.0  1.0  11821
+## Dewormed1     0.0  1.0  10878
+## 0|1           0.0  1.0  11152
+## 1|2           0.0  1.0  11878
+## 2|3           0.0  1.0  12729
+## 3|4           0.0  1.0  13564
+## mean_PPD:0    0.0  1.0  10906
+## mean_PPD:1    0.0  1.0  10018
+## mean_PPD:2    0.0  1.0  10341
+## mean_PPD:3    0.0  1.0  10322
+## mean_PPD:4    0.0  1.0  10643
+## log-posterior 0.1  1.0   2823
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
+<p>The formula using the posterior means of each variable is:
+<span class="math display">\[logit(\hat P(Y\leq k))=\beta_{k0}-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
+\\+0.319*Vaccinated1-0.002*Dewormed1
+\\\text{For k =0,1,2,3,4}, \beta_{k0}=0,-3.62,-1.42,-0.17,0.76\text{ respectively}\]</span>
+If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant.
+We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.</p>
+</div>
+</div>
+<div id="model-2" class="section level2">
+<h2><span class="header-section-number">7.2</span> Model 2</h2>
+<p>With further investigations, we have also found “AgeGroup” and “mix_breed” to be important factors. We will include these in our models.</p>
+<div id="model-building" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Model Building</h3>
+<p><span class="math display">\[
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_6)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}
+\\\text{ where }x_i\text{ for i from 1 to 11 is the indicator for cat, minor/severe injury,}
+\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...\]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">model2 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>MixedBreed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+</div>
+<div id="posterior-inference-1" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">summary</span>(model2)</a></code></pre></div>
+<pre><code>## 
+## Model Info:
+##  function:     stan_polr
+##  family:       ordered [logistic]
+##  formula:      AdoptionSpeed ~ Type + Health + Sterilized + Vaccinated + AgeGroup + 
+##     MixedBreed
+##  algorithm:    sampling
+##  sample:       10000 (posterior sample size)
+##  priors:       see help(&#39;prior_summary&#39;)
+##  observations: 822
+## 
+## Estimates:
+##               mean   sd   10%   50%   90%
+## Type1        0.5    0.2  0.2   0.5   0.8 
+## Health1      0.5    0.3  0.0   0.5   0.9 
+## Health2      1.7    1.3  0.1   1.6   3.3 
+## Sterilized1  0.5    0.2  0.2   0.5   0.7 
+## Vaccinated1  0.2    0.1  0.1   0.2   0.4 
+## AgeGroup1    0.5    0.2  0.3   0.5   0.8 
+## AgeGroup2    0.7    0.2  0.4   0.7   1.0 
+## AgeGroup3    1.0    0.3  0.5   1.0   1.4 
+## AgeGroup4    0.7    0.4  0.1   0.6   1.2 
+## AgeGroup5    0.5    0.6 -0.2   0.5   1.3 
+## MixedBreed1  1.1    0.2  0.8   1.1   1.4 
+## 0|1         -2.5    0.3 -2.8  -2.4  -2.1 
+## 1|2         -0.1    0.2 -0.4  -0.1   0.2 
+## 2|3          1.2    0.2  0.9   1.2   1.5 
+## 3|4          2.3    0.2  2.0   2.3   2.6 
+## 
+## Fit Diagnostics:
+##              mean   sd   10%   50%   90%
+## mean_PPD:0 0.0    0.0  0.0   0.0   0.0  
+## mean_PPD:1 0.2    0.0  0.2   0.2   0.2  
+## mean_PPD:2 0.3    0.0  0.3   0.3   0.3  
+## mean_PPD:3 0.2    0.0  0.2   0.2   0.2  
+## mean_PPD:4 0.3    0.0  0.2   0.3   0.3  
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help(&#39;summary.stanreg&#39;)).
+## 
+## MCMC diagnostics
+##               mcse Rhat n_eff
+## Type1         0.0  1.0  16810
+## Health1       0.0  1.0  11878
+## Health2       0.0  1.0  10988
+## Sterilized1   0.0  1.0  15487
+## Vaccinated1   0.0  1.0  15457
+## AgeGroup1     0.0  1.0  13643
+## AgeGroup2     0.0  1.0  13077
+## AgeGroup3     0.0  1.0  11812
+## AgeGroup4     0.0  1.0  13295
+## AgeGroup5     0.0  1.0  12639
+## MixedBreed1   0.0  1.0  12542
+## 0|1           0.0  1.0  10122
+## 1|2           0.0  1.0  11369
+## 2|3           0.0  1.0  13317
+## 3|4           0.0  1.0  14103
+## mean_PPD:0    0.0  1.0  11610
+## mean_PPD:1    0.0  1.0  10820
+## mean_PPD:2    0.0  1.0  10755
+## mean_PPD:3    0.0  1.0  10976
+## mean_PPD:4    0.0  1.0  11142
+## log-posterior 0.1  1.0   2513
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
+</div>
+</div>
+<div id="model-3" class="section level2">
+<h2><span class="header-section-number">7.3</span> Model 3</h2>
+<p>The one with interaction terms.</p>
+</div>
+<div id="making-some-adjustments" class="section level2">
+<h2><span class="header-section-number">7.4</span> Making some adjustments</h2>
+<p>We see that our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance, therefore, I’ve decided to group groups 0,1, and 2 into 1 group for our final model.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ordered-logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

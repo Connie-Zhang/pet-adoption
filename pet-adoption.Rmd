@@ -1,0 +1,283 @@
+---
+title: 'STAT 454 Bayesian Statistics - Pet Adoption'
+author: 'Connie Zhang, Spring 2020 Macalester College'
+site: bookdown::bookdown_site
+output: 
+  bookdown::gitbook:
+    split_by: chapter
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: yes
+documentclass: book  
+github-repo: connie-zhang/pet-adoption
+---
+
+# Preface
+
+Hello! Welcome to the bookdown of my STAT 454 Bayesian Statistics project!
+
+
+
+<!--chapter:end:index.Rmd-->
+
+# Motivation
+
+## Why this?
+sdghj
+
+## A snapshot
+asdfash
+
+<!--chapter:end:01_Motivation.Rmd-->
+
+# Data Source
+dfd
+
+## Variable Table
+
+<!--chapter:end:02_DataSource.Rmd-->
+
+# Data Cleaning
+jhgklja
+
+<!--chapter:end:03_DataCleaning.Rmd-->
+
+# Visualizations
+
+## General Impression
+
+## Starting off
+
+<!--chapter:end:04_Visualizations.Rmd-->
+
+# Ordered Logistic Regression
+Have you ever wondered what to do when you want to predict more than 2 categories, and these categories seem to be ordered*? Ordered logistic regression is the way to go! 
+
+## Proportional Odds Assumption
+For ordered logistic regression, we assume that the relationship between each pair of outcome groups is the same. In other words, the coefficient for variable A will be the same regardless of whether it's describing the relationship between outcome group 1 and 2, or outcome group 2 and 3.  
+
+## Interpretation
+The interpretation for ordered logistic regression is very similar to logistic regression. 
+Let Y be an ordinal outcome with J categories. $\beta_{j0}$s are the "cutpoints" between adjacent categories, often seen as the intercept. $\beta_i$s are the coefficients, and $x_i$s are prediction variables. 
+Our logistic regression model would look something like this:
+$$logit(P(Y\leq j))=\beta_{j0}+\beta_1x_1-...-\beta_nx_n$$
+We will see a specific example of this in the next chapter. 
+
+*In this case, we have 5 categories for adoption speed, and we believe that the "distance" between these 5 adoption speeds are not equal.
+
+<!--chapter:end:05_OrderedLogisticRegression.Rmd-->
+
+# Modelling
+First, let's load some essential package.
+```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(base)
+library(dplyr)
+library(rstan)
+library(rstanarm)
+library(bayesplot)
+library(bayesrules)
+library(reshape)
+library(tidyr)
+library(rsample)
+
+rstan_options (auto_write=TRUE)
+options (mc.cores=parallel::detectCores ()) # Run on multiple cores
+```
+
+We will also create a sample of 1000 for faster modelling. 
+```{r}
+load("adoption.RData")
+set.seed(454)
+mysample <- adoption[sample(1:nrow(adoption), 1000,
+   replace=FALSE),]
+```
+
+Below is the function I wrote to compute the accuracy of each model. 
+```{r}
+ordinal_accuracy<-function(post_preds,mydata){
+  post_preds<-as.data.frame(post_preds)
+  results<-c()
+  for (j in (1:length(post_preds))){
+    results[j]<-as.numeric(tail(names(sort(table(post_preds[,j]))))[5])
+    }
+  results<-as.data.frame(results)
+  compare<-cbind(results,mydata$AdoptionSpeed)
+  compare<-compare %>%mutate(results=as.numeric(results))
+  compare<-compare %>% mutate(`mydata$AdoptionSpeed`=as.numeric(`mydata$AdoptionSpeed`))
+  compare<-compare %>%mutate(accuracy=ifelse(as.numeric(results)==as.numeric(`mydata$AdoptionSpeed`),1,0))
+  print(sum(compare$accuracy)/length(post_preds))
+}
+```
+
+
+## Model 1
+From fig 1- fig n, we see that health factors and type can be useful factors in predicting adoption speed. 
+For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which will give us a standard uniform prior on R2.
+### Model Building
+$$
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_6)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_5x_5
+\\\text{ where }x_i\text{ for i from 1 to 6 is the indicator for cat, minor injury, severe injury,}
+\\\text{sterilization, vaccination, and dewormed.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...$$
+
+```{r cache=TRUE}
+model1 <- stan_polr(AdoptionSpeed ~ Type+Health+Sterilized+Vaccinated+Dewormed, data =mysample, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```
+### Posterior Inference
+
+```{r cache=TRUE}
+model1_summary<-summary(model1)
+head(as.data.frame(model1_summary), -2)
+```
+
+```{r cache=TRUE}
+set.seed(454)
+model_data1<-mysample %>% 
+  dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) %>% 
+  na.omit()
+my_prediction1 <- posterior_predict(
+  model1, 
+  newdata = model_data1)
+
+ordinal_accuracy(my_prediction1,model_data1)
+```
+
+The formula using the posterior means of each variable is:
+$$logit(\hat P(Y\leq k))=\beta_{k0}-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
+\\+0.319*Vaccinated1-0.002*Dewormed1
+\\\text{For k =0,1,2,3,4}, \beta_{k0}=0,-3.62,-1.42,-0.17,0.76\text{ respectively}$$
+The accuracy for this model is 0.244. 
+If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant. 
+We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.
+
+
+## Model 2
+With further investigations, we have also found "AgeGroup" and "mix_breed" to be important factors. We will include these in our models.
+
+### Model Building
+$$
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_10)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}
+\\\text{ where }x_i\text{ for i from 1 to 11 is the indicator for cat, minor/severe injury,}
+\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...$$
+
+```{r cache=TRUE}
+model2 <- stan_polr(AdoptionSpeed ~ Type+Health+Sterilized+Vaccinated+AgeGroup+MixedBreed, data =mysample, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```
+
+### Posterior Inference
+```{r cache=TRUE}
+model2_summary<- summary(model2)
+head(as.data.frame(model2_summary), -2)
+```
+
+```{r cache=TRUE}
+set.seed(454)
+model_data2<-mysample %>% 
+  dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>% 
+  na.omit()
+my_prediction2 <- posterior_predict(
+  model2, 
+  newdata = model_data2)
+
+ordinal_accuracy(my_prediction2,model_data2)
+```
+The model accuracy is something.
+If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant. 
+We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.
+If an animal is in age group 1(4 to 11 months), then the odds of that animal getting adopted slower will increase by e^0.5=1.65 times than an animal that is in age group 0 (0 to 3 months), keeping all other variables constant. Similar situations apply to other age groups as well. From this, we can reasonably infer that animals in age group 0 are the most popular. 
+If an animal is a Mixed Breed, then the odds of that animal getting adopted slower will increase by e^1.1=3.00 times than an animal that is not mixed breed, keeping all other variables constant.
+
+
+
+## Model 3
+In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
+```{r}
+set.seed(454)
+adoption_split <- initial_split(adoption, prop = .7)
+adoption_train <- training(adoption_split)
+adoption_test <- testing(adoption_split)
+```
+
+
+### Model Building
+$$
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_16)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
+\\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
+\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
+\\\beta_{12}\text{ is the coefficient for the interaction term of Type*MixedBreed, and }\beta_{13}\text{ to }
+\\\beta_{16}\text{ are the coefficients for the interaction terms of AgeGroup*Sterilization.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...$$
+
+```{r cache=TRUE}
+model3 <- stan_polr(AdoptionSpeed ~ Type*MixedBreed+Health+Vaccinated+AgeGroup*Sterilized, data=adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```
+
+### Posterior Inference
+```{r cache=TRUE}
+model3_summary<- summary(model3)
+head(as.data.frame(model3_summary), -2)
+```
+
+```{r cache=TRUE}
+set.seed(454)
+model_data3<-adoption_test %>% 
+  dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>% 
+  na.omit()
+my_prediction3 <- posterior_predict(
+  model3, 
+  newdata = model_data3)
+
+ordinal_accuracy(my_prediction3,model_data3)
+```
+The model accuracy is something.
+
+
+## Making some adjustments
+Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance, therefore, I've decided to group groups 0,1, and 2 into 1 group for our final model. 
+
+<!--chapter:end:06_Modelling.Rmd-->
+
+# Final Model
+The three group model.
+Fitting on training data then applying it to testing data.
+
+## Discussion
+What this model tells us. Which factors are important? What can we do to improve our model (cuteness meter)? 
+
+
+
+<!--chapter:end:07_FinalModel.Rmd-->
+
+# Shiny Apps!
+
+## User Input
+
+
+<!--chapter:end:08_ShinyApp.Rmd-->
+
+# Final Reflections
+
+## Advice for first time capstone people
+
+## Acknowledgements
+
+## Citations
+
+<!--chapter:end:09_FinalReflections.Rmd-->
+

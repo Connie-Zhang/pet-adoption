@@ -1,0 +1,8 @@
+# Final Model
+The three group model.
+Fitting on training data then applying it to testing data.
+
+## Discussion
+What this model tells us. Which factors are important? What can we do to improve our model (cuteness meter)? 
+
+
