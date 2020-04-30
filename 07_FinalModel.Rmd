@@ -1,6 +1,56 @@
 # Final Model
-The three group model.
-Fitting on training data then applying it to testing data.
+Finally! We are ready for our final model! Now, let's use our test and train data. 
+```{r}
+load('adoption.RData')
+set.seed(454)
+adoption_split <- initial_split(adoption, prop = .7)
+adoption_train <- training(adoption_split)
+adoption_test <- testing(adoption_split)
+```
+
+
+## Model Building 
+$$
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_15)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
+\\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
+\\\text{sterilization, age groups 1-5, and Mix breed.}
+\\\beta_{12}\text{ is the coefficient for the interaction term of Type*MixedBreed, and }\beta_{13}\text{ to }
+\\\beta_{16}\text{ are the coefficients for the interaction terms of AgeGroup*Sterilization.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...$$
+
+```{r cache=TRUE}
+final_model <- stan_polr(AdoptionSpeed_Group ~ Type*MixedBreed+Health+Sterilized*AgeGroup, data =adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```
+
+
+## Diagnostic Plots
+Let's look at some diagnostic plots! The trace plots show that all chains overlap without a pattern. The density plot also shows chains overlapping. The pp_check also shows no abnormal patterns. 
+```{r cache=TRUE}
+mcmc_trace(final_model)
+mcmc_dens_overlay(final_model)
+pp_check(final_model)
+```
+
+## Posterior Inference
+```{r cache=TRUE}
+final_model_summary<- summary(final_model)
+head(as.data.frame(final_model_summary), -2)
+```
+
+```{r cache=TRUE}
+set.seed(454)
+model_data<-adoption_test %>%
+  dplyr::select(AdoptionSpeed_Group,Type,Health,AgeGroup,MixedBreed,Sterilized,Vaccinated) %>%
+  na.omit()
+final_prediction <- posterior_predict(
+  final_model,
+  newdata = model_data)
+ordinal_accuracy2(final_prediction,model_data)
+```
 
 ## Discussion
 What this model tells us. Which factors are important? What can we do to improve our model (cuteness meter)? 

@@ -130,20 +130,21 @@ If an animal is in age group 1(4 to 11 months), then the odds of that animal get
 If an animal is a Mixed Breed, then the odds of that animal getting adopted slower will increase by e^1.1=3.00 times than an animal that is not mixed breed, keeping all other variables constant.
 
 
+## Making some adjustments
+Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance. 
+Therefore, I've decided to group groups 0,1, and 2 into 1 group. In our future models, we will be predicting for 3 adoption speed groups. 
 
 ## Model 3
 In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
 ```{r}
 set.seed(454)
-adoption_split <- initial_split(adoption, prop = .7)
-adoption_train <- training(adoption_split)
-adoption_test <- testing(adoption_split)
+mysample2 <- adoption[sample(1:nrow(adoption), 1000,
+   replace=FALSE),]
 ```
-
 
 ### Model Building
 $$
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
 \\y_i|(\beta_{0k},\beta_1,...,\beta_16)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
 \\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
 \\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
@@ -154,29 +155,26 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r cache=TRUE}
-model3 <- stan_polr(AdoptionSpeed ~ Type*MixedBreed+Health+Vaccinated+AgeGroup*Sterilized, data=adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```{r}
+model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 
 ### Posterior Inference
-```{r cache=TRUE}
+```{r}
 model3_summary<- summary(model3)
 head(as.data.frame(model3_summary), -2)
 ```
 
-```{r cache=TRUE}
+```{r}
 set.seed(454)
-model_data3<-adoption_test %>% 
-  dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>% 
+model_data3<-mysample2 %>%
+  dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
   na.omit()
 my_prediction3 <- posterior_predict(
-  model3, 
+  model3,
   newdata = model_data3)
 
 ordinal_accuracy(my_prediction3,model_data3)
 ```
 The model accuracy is something.
 
-
-## Making some adjustments
-Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance, therefore, I've decided to group groups 0,1, and 2 into 1 group for our final model. 

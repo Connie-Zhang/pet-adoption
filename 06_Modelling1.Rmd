@@ -1,0 +1,88 @@
+# Modelling_01
+```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(base)
+library(dplyr)
+library(rstan)
+library(rstanarm)
+library(bayesplot)
+library(bayesrules)
+library(reshape)
+library(tidyr)
+library(rsample)
+
+rstan_options (auto_write=TRUE)
+options (mc.cores=parallel::detectCores ()) # Run on multiple cores
+```
+
+We will also create a sample of 1000 for faster modelling. 
+```{r}
+load("adoption.RData")
+set.seed(454)
+mysample <- adoption[sample(1:nrow(adoption), 1000,
+   replace=FALSE),]
+```
+
+Below is the function I wrote to compute the accuracy of each model. 
+```{r}
+ordinal_accuracy<-function(post_preds,mydata){
+  post_preds<-as.data.frame(post_preds)
+  results<-c()
+  for (j in (1:length(post_preds))){
+    results[j]<-as.numeric(tail(names(sort(table(post_preds[,j]))))[5])
+    }
+  results<-as.data.frame(results)
+  compare<-cbind(results,mydata$AdoptionSpeed)
+  compare<-compare %>%mutate(results=as.numeric(results))
+  compare<-compare %>% mutate(`mydata$AdoptionSpeed`=as.numeric(`mydata$AdoptionSpeed`))
+  compare<-compare %>%mutate(accuracy=ifelse(as.numeric(results)==as.numeric(`mydata$AdoptionSpeed`),1,0))
+  print(sum(compare$accuracy)/length(post_preds))
+}
+```
+
+## Model 3
+In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
+```{r}
+set.seed(454)
+adoption_split <- initial_split(adoption, prop = .7)
+adoption_train <- training(adoption_split)
+adoption_test <- testing(adoption_split)
+```
+
+
+### Model Building
+$$
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\\y_i|(\beta_{0k},\beta_1,...,\beta_16)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
+\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
+\\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
+\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
+\\\beta_{12}\text{ is the coefficient for the interaction term of Type*MixedBreed, and }\beta_{13}\text{ to }
+\\\beta_{16}\text{ are the coefficients for the interaction terms of AgeGroup*Sterilization.}
+\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
+\\\beta_1\sim N(m_1,s_1^2)
+\\...$$
+
+```{r cache=TRUE}
+model3 <- stan_polr(AdoptionSpeed ~ Type*MixedBreed+Health+Vaccinated+AgeGroup*Sterilized, data=adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```
+
+### Posterior Inference
+```{r cache=TRUE}
+model3_summary<- summary(model3)
+head(as.data.frame(model3_summary), -2)
+```
+
+```{r cache=TRUE}
+set.seed(454)
+model_data3<-adoption_test %>%
+  dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
+  na.omit()
+my_prediction3 <- posterior_predict(
+  model3,
+  newdata = model_data3)
+
+ordinal_accuracy(my_prediction3,model_data3)
+```
+
