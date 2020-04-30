@@ -1,5 +1,12 @@
 # Visualizations
+Now let's check out some visualizations to inform our models!
 
-## General Impression
+## General Impressions
+From the bar graph, we can see that not a lot of animals get adopted on the day of listing,
+```{r}
+adoption %>%
+  ggplot(aes(x=AdoptionSpeed))+geom_bar()
+```
+
 
 ## Starting off

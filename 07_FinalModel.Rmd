@@ -3,9 +3,16 @@ Finally! We are ready for our final model! Now, let's use our test and train dat
 ```{r}
 load('adoption.RData')
 set.seed(454)
-adoption_split <- initial_split(adoption, prop = .7)
+adoption_split <- initial_split(adoption, prop = .7) 
 adoption_train <- training(adoption_split)
-adoption_test <- testing(adoption_split)
+adoption_test <- testing(adoption_split) 
+```
+
+```{r}
+# set.seed(454)
+# adoption_train <- adoption_train[sample(1:nrow(adoption_train), 500,
+#    replace=FALSE),]
+# adoption_test<-adoption_test[sample(1:nrow(adoption_test),250,replace=FALSE),]
 ```
 
 
@@ -23,33 +30,34 @@ $$
 \\...$$
 
 ```{r cache=TRUE}
-# final_model <- stan_polr(AdoptionSpeed_Group ~ Type*MixedBreed+Health+Sterilized*AgeGroup, data =adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+final_model <- stan_polr(AdoptionSpeed_Group ~ Type*MixedBreed+Health+Sterilized*AgeGroup, data =adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 
 
 ## Diagnostic Plots
 Let's look at some diagnostic plots! The trace plots show that all chains overlap without a pattern. The density plot also shows chains overlapping. The pp_check also shows no abnormal patterns. 
+
 ```{r cache=TRUE}
-# mcmc_trace(final_model)
-# mcmc_dens_overlay(final_model)
-# pp_check(final_model)
+mcmc_trace(final_model)
+mcmc_dens_overlay(final_model)
+pp_check(final_model)
 ```
 
 ## Posterior Inference
 ```{r cache=TRUE}
-# final_model_summary<- summary(final_model)
-# head(as.data.frame(final_model_summary), -2)
+final_model_summary<- summary(final_model)
+head(as.data.frame(final_model_summary), -2)
 ```
 
 ```{r cache=TRUE}
-# set.seed(454)
-# model_data<-adoption_test %>%
-#   dplyr::select(AdoptionSpeed_Group,Type,Health,AgeGroup,MixedBreed,Sterilized,Vaccinated) %>%
-#   na.omit()
-# final_prediction <- posterior_predict(
-#   final_model,
-#   newdata = model_data)
-# ordinal_accuracy2(final_prediction,model_data)
+set.seed(454)
+model_data<-adoption_test %>%
+  dplyr::select(AdoptionSpeed_Group,Type,Health,AgeGroup,MixedBreed,Sterilized) %>%
+  na.omit()
+final_prediction <- posterior_predict(
+  final_model,
+  newdata = model_data)
+ordinal_accuracy2(final_prediction,model_data)
 ```
 
 ## Discussion

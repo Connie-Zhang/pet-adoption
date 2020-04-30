@@ -142,6 +142,23 @@ mysample2 <- adoption[sample(1:nrow(adoption), 1000,
    replace=FALSE),]
 ```
 
+```{r}
+ordinal_accuracy2<-function(post_preds,mydata){
+  post_preds<-as.data.frame(post_preds)
+  results<-c()
+  for (j in (1:length(post_preds))){
+    results[j]<-as.numeric(tail(names(sort(table(post_preds[,j]))))[3])
+    }
+  results<-as.data.frame(results)
+  compare<-cbind(results,mydata$AdoptionSpeed_Group)
+  compare<-compare %>%mutate(results=as.numeric(results))
+  compare<-compare %>% mutate(`mydata$AdoptionSpeed_Group`=as.numeric(`mydata$AdoptionSpeed_Group`))
+  compare<-compare %>%mutate(accuracy=ifelse(as.numeric(results)==as.numeric(`mydata$AdoptionSpeed_Group`),1,0))
+  print(sum(compare$accuracy)/length(post_preds))
+}
+```
+
+
 ### Model Building
 $$
 \text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
@@ -155,26 +172,25 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r}
-# model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+```{r cache=TRUE}
+model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what= NULL),iter=5000, seed = 454)
 ```
 
 ### Posterior Inference
-```{r}
-# model3_summary<- summary(model3)
-# head(as.data.frame(model3_summary), -2)
+```{r cache=TRUE}
+model3_summary<- summary(model3)
+head(as.data.frame(model3_summary), -2)
 ```
 
-```{r}
-# set.seed(454)
-# model_data3<-mysample2 %>%
-#   dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
-#   na.omit()
-# my_prediction3 <- posterior_predict(
-#   model3,
-#   newdata = model_data3)
-# 
-# ordinal_accuracy(my_prediction3,model_data3)
-```
-The model accuracy is something.
+```{r cache=TRUE}
+set.seed(454)
+model_data3<-mysample2 %>%
+  dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
+  na.omit()
+my_prediction3 <- posterior_predict(
+  model3,
+  newdata = model_data3)
 
+ordinal_accuracy2(my_prediction3,model_data3)
+```
+The model accuracy is 0.560, that's a big improvement!

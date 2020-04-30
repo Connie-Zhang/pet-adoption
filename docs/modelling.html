@@ -366,6 +366,19 @@ Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
 <a class="sourceLine" id="cb13-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
 <a class="sourceLine" id="cb13-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">ordinal_accuracy2&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb14-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb14-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb14-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb14-6" title="6">    }</a>
+<a class="sourceLine" id="cb14-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb14-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
+<a class="sourceLine" id="cb14-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb14-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb14-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb14-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
+<a class="sourceLine" id="cb14-13" title="13">}</a></code></pre></div>
 <div id="model-building-1" class="section level3">
 <h3><span class="header-section-number">7.4.1</span> Model Building</h3>
 <p><span class="math display">\[
@@ -379,22 +392,55 @@ Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future
 \\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
 \\\beta_1\sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># model3 &lt;- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed_Group <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span> <span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference-2" class="section level3">
 <h3><span class="header-section-number">7.4.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># model3_summary&lt;- summary(model3)</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="co"># head(as.data.frame(model3_summary), -2)</span></a></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># set.seed(454)</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="co"># model_data3&lt;-mysample2 %&gt;%</span></a>
-<a class="sourceLine" id="cb16-3" title="3"><span class="co">#   dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %&gt;%</span></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="co">#   na.omit()</span></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="co"># my_prediction3 &lt;- posterior_predict(</span></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="co">#   model3,</span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="co">#   newdata = model_data3)</span></a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="co"># </span></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="co"># ordinal_accuracy(my_prediction3,model_data3)</span></a></code></pre></div>
-<p>The model accuracy is something.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<pre><code>##                  mean         mcse         sd         10%       50%       90%
+## Type1       0.3451827 0.0019710823 0.23476422  0.04353292 0.3425949 0.6421678
+## MixedBreed1 0.9758830 0.0022277932 0.24084355  0.66773156 0.9752728 1.2843762
+## Health1     0.5549085 0.0031939476 0.35711011  0.09364087 0.5573441 1.0099537
+## Health2     1.6569184 0.0128234459 1.29691140  0.12056026 1.5538236 3.3182407
+## Vaccinated1 0.1700844 0.0012275795 0.16079859 -0.03401840 0.1706597 0.3776179
+## AgeGroup1   0.5505604 0.0016178448 0.18017912  0.31706524 0.5493472 0.7840974
+## AgeGroup2   0.7259747 0.0019790205 0.23643728  0.42795142 0.7253973 1.0323629
+## AgeGroup3   0.9113914 0.0030942282 0.35135824  0.46744848 0.9097726 1.3594050
+## AgeGroup4   0.5862925 0.0040405589 0.47104174 -0.01181623 0.5814861 1.1957654
+## AgeGroup5   0.3243656 0.0055521388 0.64586317 -0.51509322 0.3412998 1.1392635
+## Sterilized1 0.5207101 0.0016653392 0.18600371  0.28016222 0.5200531 0.7599464
+## 1|2         1.1190016 0.0022699191 0.24307702  0.80645532 1.1160157 1.4277635
+## 2|3         2.1449649 0.0022639660 0.25308847  1.82145025 2.1405737 2.4761848
+## mean_PPD:1  0.5203933 0.0002372490 0.02376417  0.49026764 0.5206813 0.5510949
+## mean_PPD:2  0.2144968 0.0002032269 0.02032452  0.18856448 0.2141119 0.2408759
+##             n_eff      Rhat
+## Type1       14186 0.9997899
+## MixedBreed1 11687 0.9999682
+## Health1     12501 1.0000555
+## Health2     10228 1.0002430
+## Vaccinated1 17158 0.9996834
+## AgeGroup1   12403 1.0002466
+## AgeGroup2   14274 0.9998599
+## AgeGroup3   12894 0.9997617
+## AgeGroup4   13591 0.9999414
+## AgeGroup5   13532 0.9999226
+## Sterilized1 12475 1.0003604
+## 1|2         11467 0.9998890
+## 2|3         12497 0.9998815
+## mean_PPD:1  10033 1.0001560
+## mean_PPD:2  10002 0.9998024</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb18-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb18-6" title="6">  model3,</a>
+<a class="sourceLine" id="cb18-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
+<a class="sourceLine" id="cb18-8" title="8"></a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="kw">ordinal_accuracy2</span>(my_prediction3,model_data3)</a></code></pre></div>
+<pre><code>## [1] 0.5596107</code></pre>
+<p>The model accuracy is 0.560, that’s a big improvement!</p>
 
 </div>
 </div>

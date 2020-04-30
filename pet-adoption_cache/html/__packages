@@ -1,0 +1,12 @@
+base
+ggplot2
+dplyr
+StanHeaders
+rstan
+Rcpp
+rstanarm
+bayesplot
+bayesrules
+reshape
+tidyr
+rsample
