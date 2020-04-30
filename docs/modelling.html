@@ -136,8 +136,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>4</b> Data Cleaning</a></li>
 <li class="chapter" data-level="5" data-path="visualizations.html"><a href="visualizations.html"><i class="fa fa-check"></i><b>5</b> Visualizations</a><ul>
-<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impression"><i class="fa fa-check"></i><b>5.1</b> General Impression</a></li>
-<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a></li>
+<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impressions"><i class="fa fa-check"></i><b>5.1</b> General Impressions</a></li>
+<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="visualizations.html"><a href="visualizations.html#type"><i class="fa fa-check"></i><b>5.2.1</b> Type</a></li>
+<li class="chapter" data-level="5.2.2" data-path="visualizations.html"><a href="visualizations.html#health-related-factors"><i class="fa fa-check"></i><b>5.2.2</b> Health-related factors</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="visualizations.html"><a href="visualizations.html#more-digging"><i class="fa fa-check"></i><b>5.3</b> More digging</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="visualizations.html"><a href="visualizations.html#age-and-age-group"><i class="fa fa-check"></i><b>5.3.1</b> Age and Age Group</a></li>
+<li class="chapter" data-level="5.3.2" data-path="visualizations.html"><a href="visualizations.html#the-mysterious-breed-307"><i class="fa fa-check"></i><b>5.3.2</b> The mysterious Breed 307</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="visualizations.html"><a href="visualizations.html#other-factors"><i class="fa fa-check"></i><b>5.4</b> Other factors</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Ordered Logistic Regression</a><ul>
 <li class="chapter" data-level="6.1" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html#proportional-odds-assumption"><i class="fa fa-check"></i><b>6.1</b> Proportional Odds Assumption</a></li>
@@ -192,27 +200,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 7</span> Modelling</h1>
 <p>First, let’s load some essential package.</p>
 <p>We will also create a sample of 1000 for faster modelling.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">load</span>(<span class="st">&quot;adoption.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">mysample &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb1-4" title="4">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">load</span>(<span class="st">&quot;adoption.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb27-3" title="3">mysample &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb27-4" title="4">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
 <p>Below is the function I wrote to compute the accuracy of each model.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ordinal_accuracy&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
-<a class="sourceLine" id="cb2-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
-<a class="sourceLine" id="cb2-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
-<a class="sourceLine" id="cb2-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
-<a class="sourceLine" id="cb2-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb2-6" title="6">    }</a>
-<a class="sourceLine" id="cb2-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
-<a class="sourceLine" id="cb2-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed)</a>
-<a class="sourceLine" id="cb2-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
-<a class="sourceLine" id="cb2-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>))</a>
-<a class="sourceLine" id="cb2-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb2-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
-<a class="sourceLine" id="cb2-13" title="13">}</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">ordinal_accuracy&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb28-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb28-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb28-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb28-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb28-6" title="6">    }</a>
+<a class="sourceLine" id="cb28-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb28-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed)</a>
+<a class="sourceLine" id="cb28-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb28-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb28-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb28-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
+<a class="sourceLine" id="cb28-13" title="13">}</a></code></pre></div>
 <div id="model-1" class="section level2">
 <h2><span class="header-section-number">7.1</span> Model 1</h2>
-<p>From fig 1- fig n, we see that health factors and type can be useful factors in predicting adoption speed.
+<p>From the “Starting off” section, we see that health factors and type can be useful factors in predicting adoption speed.
 For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which will give us a standard uniform prior on R2.
 ### Model Building
 <span class="math display">\[
@@ -224,11 +232,11 @@ For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which 
 \\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
 \\\beta_1\sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">model1 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>Dewormed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">model1 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>Dewormed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 <div id="posterior-inference" class="section level3">
 <h3><span class="header-section-number">7.1.1</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">model1_summary&lt;-<span class="kw">summary</span>(model1)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model1_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">model1_summary&lt;-<span class="kw">summary</span>(model1)</a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model1_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                     mean         mcse          sd         10%          50%
 ## Type1       -0.291472332 1.067107e-03 0.128917172 -0.45490997 -0.291619825
 ## Health1      0.441523473 3.135560e-03 0.350471059 -0.01079189  0.437815394
@@ -259,15 +267,15 @@ For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which 
 ## mean_PPD:1   0.23029557 10018 0.9999413
 ## mean_PPD:2   0.31650246 10341 1.0001028
 ## mean_PPD:3   0.24014778 10322 1.0000672</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">model_data1&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb6-5" title="5">my_prediction1 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb6-6" title="6">  model1, </a>
-<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">newdata =</span> model_data1)</a>
-<a class="sourceLine" id="cb6-8" title="8"></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction1,model_data1)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb32-2" title="2">model_data1&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb32-5" title="5">my_prediction1 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb32-6" title="6">  model1, </a>
+<a class="sourceLine" id="cb32-7" title="7">  <span class="dt">newdata =</span> model_data1)</a>
+<a class="sourceLine" id="cb32-8" title="8"></a>
+<a class="sourceLine" id="cb32-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction1,model_data1)</a></code></pre></div>
 <pre><code>## [1] 0.2438424</code></pre>
 <p>The formula using the posterior means of each variable is:
 <span class="math display">\[logit(\hat P(Y\leq k))=\beta_{k0}-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
@@ -280,7 +288,7 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 </div>
 <div id="model-2" class="section level2">
 <h2><span class="header-section-number">7.2</span> Model 2</h2>
-<p>With further investigations, we have also found “AgeGroup” and “mix_breed” to be important factors. We will include these in our models.</p>
+<p>With further investigations, we have also found “AgeGroup” and “mix_breed” to be important factors (visualizations from the “More digging” section). We will include these in our models.</p>
 <div id="model-building" class="section level3">
 <h3><span class="header-section-number">7.2.1</span> Model Building</h3>
 <p><span class="math display">\[
@@ -292,12 +300,12 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 \\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
 \\\beta_1\sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">model2 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>MixedBreed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">model2 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>MixedBreed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference-1" class="section level3">
 <h3><span class="header-section-number">7.2.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">model2_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model2)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model2_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">model2_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model2)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model2_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                    mean         mcse          sd         10%         50%
 ## Type1        0.48778366 1.707863e-03 0.221427458  0.19976369  0.48937164
 ## Health1      0.47969467 3.195916e-03 0.348317802  0.03818016  0.47965636
@@ -338,15 +346,15 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 ## mean_PPD:1   0.22627737 10820 1.0000967
 ## mean_PPD:2   0.31630170 10755 0.9999731
 ## mean_PPD:3   0.23965937 10976 0.9998674</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb11-2" title="2">model_data2&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb11-5" title="5">my_prediction2 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb11-6" title="6">  model2, </a>
-<a class="sourceLine" id="cb11-7" title="7">  <span class="dt">newdata =</span> model_data2)</a>
-<a class="sourceLine" id="cb11-8" title="8"></a>
-<a class="sourceLine" id="cb11-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction2,model_data2)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb37-2" title="2">model_data2&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb37-5" title="5">my_prediction2 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb37-6" title="6">  model2, </a>
+<a class="sourceLine" id="cb37-7" title="7">  <span class="dt">newdata =</span> model_data2)</a>
+<a class="sourceLine" id="cb37-8" title="8"></a>
+<a class="sourceLine" id="cb37-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction2,model_data2)</a></code></pre></div>
 <pre><code>## [1] 0.2372263</code></pre>
 <p>The model accuracy is something.
 If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant.
@@ -362,23 +370,23 @@ Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future
 </div>
 <div id="model-3" class="section level2">
 <h2><span class="header-section-number">7.4</span> Model 3</h2>
-<p>In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can’t be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type<span class="math inline">\(*\)</span>MixedBreed and AgeGroup<span class="math inline">\(*\)</span>Sterilization.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb13-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb13-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">ordinal_accuracy2&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
-<a class="sourceLine" id="cb14-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
-<a class="sourceLine" id="cb14-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
-<a class="sourceLine" id="cb14-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
-<a class="sourceLine" id="cb14-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb14-6" title="6">    }</a>
-<a class="sourceLine" id="cb14-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
-<a class="sourceLine" id="cb14-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
-<a class="sourceLine" id="cb14-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
-<a class="sourceLine" id="cb14-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
-<a class="sourceLine" id="cb14-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb14-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
-<a class="sourceLine" id="cb14-13" title="13">}</a></code></pre></div>
+<p>In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can’t be done when they are young. I have also realized that only dogs can be marked as mixed breed. Therefore, we will add two interaction terms: Type<span class="math inline">\(*\)</span>MixedBreed and AgeGroup<span class="math inline">\(*\)</span>Sterilization.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb39-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb39-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">ordinal_accuracy2&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb40-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb40-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb40-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb40-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb40-6" title="6">    }</a>
+<a class="sourceLine" id="cb40-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb40-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
+<a class="sourceLine" id="cb40-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb40-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb40-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb40-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
+<a class="sourceLine" id="cb40-13" title="13">}</a></code></pre></div>
 <div id="model-building-1" class="section level3">
 <h3><span class="header-section-number">7.4.1</span> Model Building</h3>
 <p><span class="math display">\[
@@ -392,12 +400,12 @@ Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future
 \\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
 \\\beta_1\sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed_Group <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span> <span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed_Group <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span> <span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference-2" class="section level3">
 <h3><span class="header-section-number">7.4.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                  mean         mcse         sd         10%       50%       90%
 ## Type1       0.3451827 0.0019710823 0.23476422  0.04353292 0.3425949 0.6421678
 ## MixedBreed1 0.9758830 0.0022277932 0.24084355  0.66773156 0.9752728 1.2843762
@@ -430,15 +438,15 @@ Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future
 ## 2|3         12497 0.9998815
 ## mean_PPD:1  10033 1.0001560
 ## mean_PPD:2  10002 0.9998024</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb18-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb18-6" title="6">  model3,</a>
-<a class="sourceLine" id="cb18-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
-<a class="sourceLine" id="cb18-8" title="8"></a>
-<a class="sourceLine" id="cb18-9" title="9"><span class="kw">ordinal_accuracy2</span>(my_prediction3,model_data3)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb44-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb44-6" title="6">  model3,</a>
+<a class="sourceLine" id="cb44-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
+<a class="sourceLine" id="cb44-8" title="8"></a>
+<a class="sourceLine" id="cb44-9" title="9"><span class="kw">ordinal_accuracy2</span>(my_prediction3,model_data3)</a></code></pre></div>
 <pre><code>## [1] 0.5596107</code></pre>
 <p>The model accuracy is 0.560, that’s a big improvement!</p>
 

@@ -136,8 +136,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>4</b> Data Cleaning</a></li>
 <li class="chapter" data-level="5" data-path="visualizations.html"><a href="visualizations.html"><i class="fa fa-check"></i><b>5</b> Visualizations</a><ul>
-<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impression"><i class="fa fa-check"></i><b>5.1</b> General Impression</a></li>
-<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a></li>
+<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impressions"><i class="fa fa-check"></i><b>5.1</b> General Impressions</a></li>
+<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="visualizations.html"><a href="visualizations.html#type"><i class="fa fa-check"></i><b>5.2.1</b> Type</a></li>
+<li class="chapter" data-level="5.2.2" data-path="visualizations.html"><a href="visualizations.html#health-related-factors"><i class="fa fa-check"></i><b>5.2.2</b> Health-related factors</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="visualizations.html"><a href="visualizations.html#more-digging"><i class="fa fa-check"></i><b>5.3</b> More digging</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="visualizations.html"><a href="visualizations.html#age-and-age-group"><i class="fa fa-check"></i><b>5.3.1</b> Age and Age Group</a></li>
+<li class="chapter" data-level="5.3.2" data-path="visualizations.html"><a href="visualizations.html#the-mysterious-breed-307"><i class="fa fa-check"></i><b>5.3.2</b> The mysterious Breed 307</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="visualizations.html"><a href="visualizations.html#other-factors"><i class="fa fa-check"></i><b>5.4</b> Other factors</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Ordered Logistic Regression</a><ul>
 <li class="chapter" data-level="6.1" data-path="ordered-logistic-regression.html"><a href="ordered-logistic-regression.html#proportional-odds-assumption"><i class="fa fa-check"></i><b>6.1</b> Proportional Odds Assumption</a></li>
@@ -190,11 +198,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="visualizations" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> Visualizations</h1>
-<div id="general-impression" class="section level2">
-<h2><span class="header-section-number">5.1</span> General Impression</h2>
+<p>Now let’s check out some visualizations to inform our models!</p>
+<div id="general-impressions" class="section level2">
+<h2><span class="header-section-number">5.1</span> General Impressions</h2>
+<p>From the bar graph, we can see that it’s very rare for animals to get adopted on the day of listing. First, let’s look at pet adoption speed in general. We can see very little animals are adopted on the day that they arrived at the shelter, roughly 1/5 of the animals are adopted in less than a week, 1/5 of the animals are adopted between 2-3 months. 1/4 of the animals are adopted between 8-30 days, and slightly more than 1/4 of the animals are adopted after 100 days of being listed.
+What is causing the difference between adoption speeds?</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="starting-off" class="section level2">
 <h2><span class="header-section-number">5.2</span> Starting off</h2>
+<p>In this section we will look at “Type” and health-related factors.</p>
+<div id="type" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Type</h3>
+<p>Let’s look at how adoption speeds can differ by animal types. We can see that there are more dogs than cats, and cats get adopted faster than dogs.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Type,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+If people tends to evaluate cats and dogs with different criterias, I think it is worthy to do two separate models. It will also make interpretation a lot easier! So what are some possible difference in the criterias? I would say size and age would matter a lot to me. I would be more hesitant to adopt a large dog or old dog.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>MaturitySize,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>MaturitySize,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-5-2.png" width="672" />
+However, our visualizations below doesn’t seem to show a big difference between people’s adoption criteria for cats and dogs. It is possible that people are very specific about whether they want to adopt a cat or dog, and more people want to adopt cats because they require less effort.</p>
+</div>
+<div id="health-related-factors" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Health-related factors</h3>
+<p>Now, when we adopt an animal, what are some base criterias? For me, it would be the health of an animal. Many people lead busy lives, they might not have time to care for a pet that needs medical attention.
+The visualization below graphs the relative frequency of adoption speeds in each health category. We see that animals with minor or severe injuries are likely to get adopted slower. However, the majority of animals are in good health conditions.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Health, <span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+Now, let’s look at visualizations for “Sterilized”, “Dewormed”, and “Vaccinated”.
+It seems like if the animals are sterilized, dewormed, and vaccinated, they are actually more likely to be adopted slower. This is different from what I expected, but these variables are definitely informative.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Sterilized,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Dewormed,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Vaccinated,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+</div>
+</div>
+<div id="more-digging" class="section level2">
+<h2><span class="header-section-number">5.3</span> More digging</h2>
+<p>In this section, we would dig deeper into why sterilized, dewormed, and vaccinated animals get adopted slower. And we will see another factor that is significant in predicting adoption speed!</p>
+<div id="age-and-age-group" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Age and Age Group</h3>
+<p>Another informative variable will be Age. Many people would be more inclined to adopt puppies and kittens. Let’s look at the general age distribution. We see that most of the animals are younger than 1 year old, and there are small spikes at 24 and 36. This is probably because it is hard to determine the animal’s age by month, so many people probably just report the approximate age of the animal in year.
+Moreover, a 2-year-old animal probably won’t be a lot more likely to get adopted faster than a 3-year-old animal. Therefore, putting the age into groups would probably be a better approach.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">adoption <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Age))<span class="op">+</span><span class="kw">geom_histogram</span>()<span class="op">+</span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">37</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 951 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>I grouped the age by similar distribution of adoption speed. Age groups 0-5 correspond to animals aged 0-3,4-11,12-30,31-59,60-82,and 82 and older months, respectively.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="the-mysterious-breed-307" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> The mysterious Breed 307</h3>
+<p>When I’m exploring breed, breed 307 seems to be the most common. We can also see that breed 307 is more likely to get adopted slower than other breeds.
+It turns out this is mixed breed! This makes sense since people might not consider mixed breed animals as attractive.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="kw">count</span>(Breed1) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a></code></pre></div>
+<pre><code>## # A tibble: 176 x 2
+##    Breed1     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1    307  5927
+##  2    266  3634
+##  3    265  1258
+##  4    299   342
+##  5    264   296
+##  6    292   264
+##  7    285   221
+##  8    141   205
+##  9    205   190
+## 10    179   167
+## # ... with 166 more rows</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">adoption <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Breed1<span class="op">==</span><span class="dv">307</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Breed1<span class="op">!=</span><span class="dv">307</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+</div>
+</div>
+<div id="other-factors" class="section level2">
+<h2><span class="header-section-number">5.4</span> Other factors</h2>
+<p>There are some other factors that I thought would be significant but turns out to be false. For example, magnitude and score. Almost all descriptions have a positive score since this is a pet adoption website, and the magnitude of the descriptions seem to be pretty similar from each other.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>score))<span class="op">+</span><span class="kw">geom_histogram</span>()</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 624 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>magnitude))<span class="op">+</span><span class="kw">geom_histogram</span>()</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 624 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p>I also thought that the main color of the animals could be informative. However, the visualization does not show any apparent difference between color and adoption speed.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">adoption <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Color1, <span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
+<p><img src="pet-adoption_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 
 </div>
 </div>

@@ -8,14 +8,6 @@ adoption_train <- training(adoption_split)
 adoption_test <- testing(adoption_split) 
 ```
 
-```{r}
-# set.seed(454)
-# adoption_train <- adoption_train[sample(1:nrow(adoption_train), 500,
-#    replace=FALSE),]
-# adoption_test<-adoption_test[sample(1:nrow(adoption_test),250,replace=FALSE),]
-```
-
-
 ## Model Building 
 $$
 \text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}

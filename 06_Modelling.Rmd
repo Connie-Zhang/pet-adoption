@@ -44,7 +44,7 @@ ordinal_accuracy<-function(post_preds,mydata){
 
 
 ## Model 1
-From fig 1- fig n, we see that health factors and type can be useful factors in predicting adoption speed. 
+From the "Starting off" section, we see that health factors and type can be useful factors in predicting adoption speed. 
 For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which will give us a standard uniform prior on R2.
 ### Model Building
 $$
@@ -89,7 +89,7 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 
 
 ## Model 2
-With further investigations, we have also found "AgeGroup" and "mix_breed" to be important factors. We will include these in our models.
+With further investigations, we have also found "AgeGroup" and "mix_breed" to be important factors (visualizations from the "More digging" section). We will include these in our models.
 
 ### Model Building
 $$
@@ -135,7 +135,7 @@ Our accuracy is less than ideal. One reason behind this could be due to how adop
 Therefore, I've decided to group groups 0,1, and 2 into 1 group. In our future models, we will be predicting for 3 adoption speed groups. 
 
 ## Model 3
-In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
+In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. I have also realized that only dogs can be marked as mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
 ```{r}
 set.seed(454)
 mysample2 <- adoption[sample(1:nrow(adoption), 1000,
