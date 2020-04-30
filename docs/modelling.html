@@ -151,14 +151,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="modelling.html"><a href="modelling.html#model-building"><i class="fa fa-check"></i><b>7.2.1</b> Model Building</a></li>
 <li class="chapter" data-level="7.2.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-1"><i class="fa fa-check"></i><b>7.2.2</b> Posterior Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="modelling.html"><a href="modelling.html#model-3"><i class="fa fa-check"></i><b>7.3</b> Model 3</a><ul>
-<li class="chapter" data-level="7.3.1" data-path="modelling.html"><a href="modelling.html#model-building-1"><i class="fa fa-check"></i><b>7.3.1</b> Model Building</a></li>
-<li class="chapter" data-level="7.3.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-2"><i class="fa fa-check"></i><b>7.3.2</b> Posterior Inference</a></li>
+<li class="chapter" data-level="7.3" data-path="modelling.html"><a href="modelling.html#making-some-adjustments"><i class="fa fa-check"></i><b>7.3</b> Making some adjustments</a></li>
+<li class="chapter" data-level="7.4" data-path="modelling.html"><a href="modelling.html#model-3"><i class="fa fa-check"></i><b>7.4</b> Model 3</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="modelling.html"><a href="modelling.html#model-building-1"><i class="fa fa-check"></i><b>7.4.1</b> Model Building</a></li>
+<li class="chapter" data-level="7.4.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-2"><i class="fa fa-check"></i><b>7.4.2</b> Posterior Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="modelling.html"><a href="modelling.html#making-some-adjustments"><i class="fa fa-check"></i><b>7.4</b> Making some adjustments</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="final-model.html"><a href="final-model.html"><i class="fa fa-check"></i><b>8</b> Final Model</a><ul>
-<li class="chapter" data-level="8.1" data-path="final-model.html"><a href="final-model.html#discussion"><i class="fa fa-check"></i><b>8.1</b> Discussion</a></li>
+<li class="chapter" data-level="8.1" data-path="final-model.html"><a href="final-model.html#model-building-2"><i class="fa fa-check"></i><b>8.1</b> Model Building</a></li>
+<li class="chapter" data-level="8.2" data-path="final-model.html"><a href="final-model.html#diagnostic-plots"><i class="fa fa-check"></i><b>8.2</b> Diagnostic Plots</a></li>
+<li class="chapter" data-level="8.3" data-path="final-model.html"><a href="final-model.html#posterior-inference-3"><i class="fa fa-check"></i><b>8.3</b> Posterior Inference</a></li>
+<li class="chapter" data-level="8.4" data-path="final-model.html"><a href="final-model.html#discussion"><i class="fa fa-check"></i><b>8.4</b> Discussion</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="shiny-apps.html"><a href="shiny-apps.html"><i class="fa fa-check"></i><b>9</b> Shiny Apps!</a><ul>
 <li class="chapter" data-level="9.1" data-path="shiny-apps.html"><a href="shiny-apps.html#user-input"><i class="fa fa-check"></i><b>9.1</b> User Input</a></li>
@@ -352,16 +355,21 @@ If an animal is in age group 1(4 to 11 months), then the odds of that animal get
 If an animal is a Mixed Breed, then the odds of that animal getting adopted slower will increase by e^1.1=3.00 times than an animal that is not mixed breed, keeping all other variables constant.</p>
 </div>
 </div>
+<div id="making-some-adjustments" class="section level2">
+<h2><span class="header-section-number">7.3</span> Making some adjustments</h2>
+<p>Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance.
+Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future models, we will be predicting for 3 adoption speed groups.</p>
+</div>
 <div id="model-3" class="section level2">
-<h2><span class="header-section-number">7.3</span> Model 3</h2>
+<h2><span class="header-section-number">7.4</span> Model 3</h2>
 <p>In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can’t be done when they are young. Moreover, only dogs can be mixed breed. Therefore, we will add two interaction terms: Type<span class="math inline">\(*\)</span>MixedBreed and AgeGroup<span class="math inline">\(*\)</span>Sterilization.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb13-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">5000</span>,</a>
+<a class="sourceLine" id="cb13-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
 <a class="sourceLine" id="cb13-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
 <div id="model-building-1" class="section level3">
-<h3><span class="header-section-number">7.3.1</span> Model Building</h3>
+<h3><span class="header-section-number">7.4.1</span> Model Building</h3>
 <p><span class="math display">\[
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
+\text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
 \\y_i|(\beta_{0k},\beta_1,...,\beta_16)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
 \\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
 \\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
@@ -371,81 +379,24 @@ If an animal is a Mixed Breed, then the odds of that animal getting adopted slow
 \\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
 \\\beta_1\sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">*</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">*</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># model3 &lt;- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)</span></a></code></pre></div>
 </div>
 <div id="posterior-inference-2" class="section level3">
-<h3><span class="header-section-number">7.3.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
-<pre><code>##                              mean         mcse          sd         10%
-## Type1                  0.47184938 7.571442e-04 0.099369735  0.34502111
-## MixedBreed1            1.14663714 8.664970e-04 0.101586057  1.01709918
-## Health1                0.05122540 1.800379e-03 0.186304253 -0.18641892
-## Health2                0.80278228 7.639989e-03 0.791432469 -0.17825145
-## Vaccinated1           -0.02398087 4.980604e-04 0.068539997 -0.11133954
-## AgeGroup1              0.78827616 6.739903e-04 0.082801489  0.68306260
-## AgeGroup2              0.99417754 1.215189e-03 0.140377451  0.81315639
-## AgeGroup3              1.10500884 2.233080e-03 0.246135644  0.78769484
-## AgeGroup4              0.40492872 3.234301e-03 0.342977893 -0.03423933
-## AgeGroup5              0.47426010 3.940640e-03 0.439456830 -0.09357260
-## Sterilized1            0.84939855 1.735068e-03 0.191216558  0.60522760
-## Type1:MixedBreed1      9.60650467 2.003167e-01 8.358244119  0.67992165
-## AgeGroup1:Sterilized1 -0.49303379 2.160991e-03 0.227324592 -0.78430283
-## AgeGroup2:Sterilized1 -0.59788121 2.346639e-03 0.251455000 -0.92172987
-## AgeGroup3:Sterilized1 -0.24281600 3.346378e-03 0.345010132 -0.68583759
-## AgeGroup4:Sterilized1 -0.08827534 4.418418e-03 0.447682740 -0.65330275
-## AgeGroup5:Sterilized1  0.18924715 5.880433e-03 0.591016385 -0.55840190
-## 0|1                   -2.54365116 1.124570e-03 0.131534402 -2.71177567
-## 1|2                   -0.11229020 8.622524e-04 0.102904006 -0.24379952
-## 2|3                    1.19277358 8.301020e-04 0.103300534  1.06108647
-## 3|4                    2.27586557 8.608239e-04 0.107812529  2.13864991
-## mean_PPD:0             0.02865755 3.308651e-05 0.003629155  0.02405832
-## mean_PPD:1             0.20931018 8.658040e-05 0.008713952  0.19805589
-## mean_PPD:2             0.27400564 9.274487e-05 0.009704716  0.26172539
-## mean_PPD:3             0.22778564 8.593592e-05 0.009222251  0.21603888
-##                               50%         90% n_eff      Rhat
-## Type1                  0.47091238  0.59933768 17225 0.9998226
-## MixedBreed1            1.14689331  1.27840125 13745 1.0000647
-## Health1                0.05300266  0.28981134 10708 1.0001129
-## Health2                0.77418860  1.82183142 10731 1.0000717
-## Vaccinated1           -0.02443910  0.06307548 18938 0.9997683
-## AgeGroup1              0.78826905  0.89432167 15093 0.9999267
-## AgeGroup2              0.99477645  1.17592832 13345 1.0001559
-## AgeGroup3              1.10521743  1.42164234 12149 0.9999162
-## AgeGroup4              0.40536116  0.84467658 11245 1.0003545
-## AgeGroup5              0.48029323  1.03811684 12437 0.9996569
-## Sterilized1            0.84696443  1.09515953 12146 0.9998550
-## Type1:MixedBreed1      7.82300479 21.15974714  1741 1.0009795
-## AgeGroup1:Sterilized1 -0.49095946 -0.20468675 11066 0.9998388
-## AgeGroup2:Sterilized1 -0.60228281 -0.27214750 11482 1.0002522
-## AgeGroup3:Sterilized1 -0.24425243  0.20395097 10630 0.9998063
-## AgeGroup4:Sterilized1 -0.08286997  0.47721077 10266 1.0002454
-## AgeGroup5:Sterilized1  0.18463079  0.94998265 10101 0.9998151
-## 0|1                   -2.54213853 -2.37739940 13681 1.0000021
-## 1|2                   -0.11187468  0.02045730 14243 0.9997855
-## 2|3                    1.19304425  1.32506508 15486 0.9998167
-## 3|4                    2.27509305  2.41527433 15686 0.9998125
-## mean_PPD:0             0.02867558  0.03329283 12031 0.9999401
-## mean_PPD:1             0.20923451  0.22041312 10130 0.9997596
-## mean_PPD:2             0.27387606  0.28651276 10949 0.9997499
-## mean_PPD:3             0.22770352  0.23961118 11517 0.9997480</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb17-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb17-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb17-6" title="6">  model3,</a>
-<a class="sourceLine" id="cb17-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
-<a class="sourceLine" id="cb17-8" title="8"></a>
-<a class="sourceLine" id="cb17-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction3,model_data3)</a></code></pre></div>
-<pre><code>## [1] 0.2038882</code></pre>
+<h3><span class="header-section-number">7.4.2</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># model3_summary&lt;- summary(model3)</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co"># head(as.data.frame(model3_summary), -2)</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># set.seed(454)</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co"># model_data3&lt;-mysample2 %&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="co">#   dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %&gt;%</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="co">#   na.omit()</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co"># my_prediction3 &lt;- posterior_predict(</span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#   model3,</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#   newdata = model_data3)</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co"># </span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co"># ordinal_accuracy(my_prediction3,model_data3)</span></a></code></pre></div>
 <p>The model accuracy is something.</p>
-</div>
-</div>
-<div id="making-some-adjustments" class="section level2">
-<h2><span class="header-section-number">7.4</span> Making some adjustments</h2>
-<p>Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance, therefore, I’ve decided to group groups 0,1, and 2 into 1 group for our final model.</p>
 
+</div>
 </div>
 </div>
             </section>

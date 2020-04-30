@@ -156,25 +156,25 @@ $$
 \\...$$
 
 ```{r}
-model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
+# model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 
 ### Posterior Inference
 ```{r}
-model3_summary<- summary(model3)
-head(as.data.frame(model3_summary), -2)
+# model3_summary<- summary(model3)
+# head(as.data.frame(model3_summary), -2)
 ```
 
 ```{r}
-set.seed(454)
-model_data3<-mysample2 %>%
-  dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
-  na.omit()
-my_prediction3 <- posterior_predict(
-  model3,
-  newdata = model_data3)
-
-ordinal_accuracy(my_prediction3,model_data3)
+# set.seed(454)
+# model_data3<-mysample2 %>%
+#   dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
+#   na.omit()
+# my_prediction3 <- posterior_predict(
+#   model3,
+#   newdata = model_data3)
+# 
+# ordinal_accuracy(my_prediction3,model_data3)
 ```
 The model accuracy is something.
 
