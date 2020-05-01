@@ -127,10 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
-<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
-<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#why-this"><i class="fa fa-check"></i><b>2.1</b> Why this?</a></li>
-<li class="chapter" data-level="2.2" data-path="motivation.html"><a href="motivation.html#a-snapshot"><i class="fa fa-check"></i><b>2.2</b> A snapshot</a></li>
-</ul></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
 <li class="chapter" data-level="3" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>3</b> Data Source</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-source.html"><a href="data-source.html#variable-table"><i class="fa fa-check"></i><b>3.1</b> Variable Table</a></li>
 </ul></li>
@@ -221,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="diagnostic-plots" class="section level2">
 <h2><span class="header-section-number">8.2</span> Diagnostic Plots</h2>
-<p>Let’s look at some diagnostic plots! The trace plots show that all chains overlap without a pattern. The density plot also shows chains overlapping. The pp_check also shows no abnormal patterns.</p>
+<p>Let’s look at some diagnostic plots! All of these plots don’t show any abnormal pattern and the chains overlap with each other.</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">mcmc_trace</span>(final_model)</a></code></pre></div>
 <p><img src="pet-adoption_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">mcmc_dens_overlay</span>(final_model)</a></code></pre></div>
@@ -284,10 +281,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb53-7" title="7">  <span class="dt">newdata =</span> model_data)</a>
 <a class="sourceLine" id="cb53-8" title="8"><span class="kw">ordinal_accuracy2</span>(final_prediction,model_data)</a></code></pre></div>
 <pre><code>## [1] 0.5531591</code></pre>
+<p>Our final accuracy is 55.3%.
+While the expected value of the cofficient for Type<em>MixedBreed is 16.4, the standard deviation is fairly large, demonstrating that the variable might be not as significant.
+Moreover, the expected value of the cofficient for sterilized</em>AgeGroup are more significant for animals in agegroup 1 and 2. If an animal is in age group1 and sterilized, then it is 0.70 times more likely to get adopted slower than an animal that is not sterilized and not in agegroup1.</p>
 </div>
 <div id="discussion" class="section level2">
 <h2><span class="header-section-number">8.4</span> Discussion</h2>
-<p>What this model tells us. Which factors are important? What can we do to improve our model (cuteness meter)?</p>
+<p>Our model demonstrates that an animal’s health status, sterilization records, age, type (dog/cat), and whether it’s a mixed breed dog or are the factors that are most indicative of the animal’s adoption speed. However, our model does not give the most ideal accuracy. One variable that I think can help improve this model is a score of the animal’s appearance. The cuteness/attractiveness of the animal probably plays an important role in the animal adoption process. We see that the variabel “mixed breed” is pretty important in predicting animal adoption speed, perhaps this is because mixed breed dogs are not as cute/attractive as pure breeds.</p>
 
 </div>
 </div>

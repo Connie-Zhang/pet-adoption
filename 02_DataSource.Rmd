@@ -1,4 +1,5 @@
 # Data Source
-dfd
+I found this data on kaggle, it is provided by PetFinder.com, the largest online platform for animal adoption in Malaysia. This data is collected by PetFinder.com since 2008 to 2019 regarding the information about cats and dogs and their adoption speed. 
 
 ## Variable Table
+![](variable-table.png)

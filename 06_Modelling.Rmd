@@ -123,7 +123,7 @@ my_prediction2 <- posterior_predict(
 
 ordinal_accuracy(my_prediction2,model_data2)
 ```
-The model accuracy is something.
+The model accuracy is 0.24.
 If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant. 
 We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.
 If an animal is in age group 1(4 to 11 months), then the odds of that animal getting adopted slower will increase by e^0.5=1.65 times than an animal that is in age group 0 (0 to 3 months), keeping all other variables constant. Similar situations apply to other age groups as well. From this, we can reasonably infer that animals in age group 0 are the most popular. 
