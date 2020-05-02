@@ -1,6 +1,6 @@
 # Final Model
 Finally! We are ready for our final model! Now, let's use our test and train data. 
-```{r}
+```{r test/train, cache=TRUE}
 load('adoption.RData')
 set.seed(454)
 adoption_split <- initial_split(adoption, prop = .7) 
@@ -21,7 +21,7 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r cache=TRUE}
+```{r final_model, cache=TRUE}
 final_model <- stan_polr(AdoptionSpeed_Group ~ Type*MixedBreed+Health+Sterilized*AgeGroup, data =adoption_train, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 
@@ -29,19 +29,19 @@ final_model <- stan_polr(AdoptionSpeed_Group ~ Type*MixedBreed+Health+Sterilized
 ## Diagnostic Plots
 Let's look at some diagnostic plots! All of these plots don't show any abnormal pattern and the chains overlap with each other. 
 
-```{r cache=TRUE}
+```{r diagnostics, cache=TRUE}
 mcmc_trace(final_model)
 mcmc_dens_overlay(final_model)
 pp_check(final_model)
 ```
 
 ## Posterior Inference
-```{r cache=TRUE}
+```{r final_summary, cache=TRUE}
 final_model_summary<- summary(final_model)
 head(as.data.frame(final_model_summary), -2)
 ```
 
-```{r cache=TRUE}
+```{r final_predictions, cache=TRUE}
 set.seed(454)
 model_data<-adoption_test %>%
   dplyr::select(AdoptionSpeed_Group,Type,Health,AgeGroup,MixedBreed,Sterilized) %>%

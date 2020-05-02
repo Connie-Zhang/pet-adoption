@@ -202,7 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 What is causing the difference between adoption speeds?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/general-impression-1.png" width="672" /></p>
 </div>
 <div id="starting-off" class="section level2">
 <h2><span class="header-section-number">5.2</span> Starting off</h2>
@@ -212,24 +212,24 @@ What is causing the difference between adoption speeds?</p>
 <p>Let’s look at how adoption speeds can differ by animal types. We can see that there are more dogs than cats, and cats get adopted faster than dogs.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Type,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<p><img src="pet-adoption_files/figure-html/type-1.png" width="672" />
 If people tends to evaluate cats and dogs with different criterias, I think it is worthy to do two separate models. It will also make interpretation a lot easier! So what are some possible difference in the criterias? I would say size and age would matter a lot to me. I would be more hesitant to adopt a large dog or old dog.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/type-agegroup-1.png" width="672" /></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/type-agegroup-2.png" width="672" /></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>MaturitySize,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/MaturitySize-1.png" width="672" /></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Type<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>MaturitySize,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-5-2.png" width="672" />
+<p><img src="pet-adoption_files/figure-html/MaturitySize-2.png" width="672" />
 However, our visualizations below doesn’t seem to show a big difference between people’s adoption criteria for cats and dogs. It is possible that people are very specific about whether they want to adopt a cat or dog, and more people want to adopt cats because they require less effort.</p>
 </div>
 <div id="health-related-factors" class="section level3">
@@ -239,24 +239,24 @@ The visualization below graphs the relative frequency of adoption speeds in each
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Health, <span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<p><img src="pet-adoption_files/figure-html/health-1.png" width="672" />
 Now, let’s look at visualizations for “Sterilized”, “Dewormed”, and “Vaccinated”.
 It seems like if the animals are sterilized, dewormed, and vaccinated, they are actually more likely to be adopted slower. This is different from what I expected, but these variables are definitely informative.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Sterilized,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/other-health-1.png" width="672" /></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Dewormed,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
 <a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/other-health-2.png" width="672" /></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Vaccinated,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span></a>
 <a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/other-health-3.png" width="672" /></p>
 </div>
 </div>
 <div id="more-digging" class="section level2">
@@ -270,11 +270,11 @@ Moreover, a 2-year-old animal probably won’t be a lot more likely to get adopt
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 951 rows containing non-finite values (stat_bin).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/Age-1.png" width="672" /></p>
 <p>I grouped the age by similar distribution of adoption speed. Age groups 0-5 correspond to animals aged 0-3,4-11,12-30,31-59,60-82,and 82 and older months, respectively.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AgeGroup,<span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/AgeGroup-1.png" width="672" /></p>
 </div>
 <div id="the-mysterious-breed-307" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> The mysterious Breed 307</h3>
@@ -300,11 +300,11 @@ It turns out this is mixed breed! This makes sense since people might not consid
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">adoption <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Breed1<span class="op">==</span><span class="dv">307</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/Mixed-Breed-1.png" width="672" /></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Breed1<span class="op">!=</span><span class="dv">307</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb19-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>()</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/Mixed-Breed-2.png" width="672" /></p>
 </div>
 </div>
 <div id="other-factors" class="section level2">
@@ -314,16 +314,16 @@ It turns out this is mixed breed! This makes sense since people might not consid
 <a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>score))<span class="op">+</span><span class="kw">geom_histogram</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 624 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/sentiment-1.png" width="672" /></p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>magnitude))<span class="op">+</span><span class="kw">geom_histogram</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 624 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/sentiment-2.png" width="672" /></p>
 <p>I also thought that the main color of the animals could be informative. However, the visualization does not show any apparent difference between color and adoption speed.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">adoption <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Color1, <span class="dt">fill=</span>AdoptionSpeed))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
-<p><img src="pet-adoption_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="pet-adoption_files/figure-html/Color-1.png" width="672" /></p>
 
 </div>
 </div>

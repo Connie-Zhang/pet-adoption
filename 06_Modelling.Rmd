@@ -18,7 +18,7 @@ options (mc.cores=parallel::detectCores ()) # Run on multiple cores
 ```
 
 We will also create a sample of 1000 for faster modelling. 
-```{r}
+```{r sample, cache=TRUE}
 load("adoption.RData")
 set.seed(454)
 mysample <- adoption[sample(1:nrow(adoption), 1000,
@@ -26,7 +26,7 @@ mysample <- adoption[sample(1:nrow(adoption), 1000,
 ```
 
 Below is the function I wrote to compute the accuracy of each model. 
-```{r}
+```{r ordinal_Accuracy, cache=TRUE}
 ordinal_accuracy<-function(post_preds,mydata){
   post_preds<-as.data.frame(post_preds)
   results<-c()
@@ -57,17 +57,17 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r cache=TRUE}
+```{r model1, cache=TRUE}
 model1 <- stan_polr(AdoptionSpeed ~ Type+Health+Sterilized+Vaccinated+Dewormed, data =mysample, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 ### Posterior Inference
 
-```{r cache=TRUE}
+```{r model1_summary, cache=TRUE}
 model1_summary<-summary(model1)
 head(as.data.frame(model1_summary), -2)
 ```
 
-```{r cache=TRUE}
+```{r model1_predictions, cache=TRUE}
 set.seed(454)
 model_data1<-mysample %>% 
   dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) %>% 
@@ -102,17 +102,17 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r cache=TRUE}
+```{r model2, cache=TRUE}
 model2 <- stan_polr(AdoptionSpeed ~ Type+Health+Sterilized+Vaccinated+AgeGroup+MixedBreed, data =mysample, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
 
 ### Posterior Inference
-```{r cache=TRUE}
+```{r model2_summary, cache=TRUE}
 model2_summary<- summary(model2)
 head(as.data.frame(model2_summary), -2)
 ```
 
-```{r cache=TRUE}
+```{r model2_predictions, cache=TRUE}
 set.seed(454)
 model_data2<-mysample %>% 
   dplyr::select(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>% 
@@ -136,13 +136,13 @@ Therefore, I've decided to group groups 0,1, and 2 into 1 group. In our future m
 
 ## Model 3
 In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can't be done when they are young. I have also realized that only dogs can be marked as mixed breed. Therefore, we will add two interaction terms: Type$*$MixedBreed and AgeGroup$*$Sterilization.
-```{r}
+```{r sample2, cache=TRUE}
 set.seed(454)
 mysample2 <- adoption[sample(1:nrow(adoption), 1000,
    replace=FALSE),]
 ```
 
-```{r}
+```{r ordinal_Accuracy2, cache=TRUE}
 ordinal_accuracy2<-function(post_preds,mydata){
   post_preds<-as.data.frame(post_preds)
   results<-c()
@@ -172,17 +172,17 @@ $$
 \\\beta_1\sim N(m_1,s_1^2)
 \\...$$
 
-```{r cache=TRUE}
+```{r model3, cache=TRUE}
 model3 <- stan_polr(AdoptionSpeed_Group ~ Type+MixedBreed+Health+Vaccinated+AgeGroup+Sterilized, data=mysample2, prior=R2(0.5,what= NULL),iter=5000, seed = 454)
 ```
 
 ### Posterior Inference
-```{r cache=TRUE}
+```{r model3_summary, cache=TRUE}
 model3_summary<- summary(model3)
 head(as.data.frame(model3_summary), -2)
 ```
 
-```{r cache=TRUE}
+```{r model3_predictions, cache=TRUE}
 set.seed(454)
 model_data3<-mysample2 %>%
   dplyr::select(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) %>%
