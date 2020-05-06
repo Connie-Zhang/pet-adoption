@@ -15,6 +15,6 @@ github-repo: connie-zhang/pet-adoption
 
 # Preface
 
-Hello! Welcome to the bookdown of my STAT 454 Bayesian Statistics project!
+Hello! Welcome to the bookdown of my STAT 454 Bayesian Statistics project! Have you ever wondered why some animals take a long time to get adopted while some take less time? I will try to answer this question in my project, flip to read my motivations!
 
 

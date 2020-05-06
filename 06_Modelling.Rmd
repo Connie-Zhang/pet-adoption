@@ -1,4 +1,9 @@
 # Modelling
+Have you ever wondered what to do when you want to predict more than 2 categories, and these categories seem to be ordered? Ordinal logistic regression is the way to go! In the case of pet adoption speeds, we have 5 categories, with group 0 being the fastest adoption speed, 5 being the slowest. 
+
+For ordered logistic regression, we assume that the relationship between each pair of outcome groups is the same. This is called the proportional odds assumption. In other words, the coefficient for variable A will be the same regardless of whether it's describing the relationship between outcome group 1 and 2, or outcome group 2 and 3.  
+
+## Set Up
 First, let's load some essential package.
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 library(ggplot2)
@@ -45,18 +50,26 @@ ordinal_accuracy<-function(post_preds,mydata){
 
 ## Model 1
 From the "Starting off" section, we see that health factors and type can be useful factors in predicting adoption speed. 
-For this model, we have to set a R2 prior. I set R2 at 0.5 and what=NULL, which will give us a standard uniform prior on R2.
+
 ### Model Building
-$$
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
-\\y_i|(\beta_{0k},\beta_1,...,\beta_6)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
-\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_5x_5
-\\\text{ where }x_i\text{ for i from 1 to 6 is the indicator for cat, minor injury, severe injury,}
-\\\text{sterilization, vaccination, and dewormed.}
-\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
-\\\beta_1\sim N(m_1,s_1^2)
+$$\text{For Bayesian Ordinal Regression, we introduce a latent variable }y^*,\text{ modeled as a linear function with our chosen predictors,}
+\\\text{ the vector }\zeta\text{ with 4 cutpoints, and let }Y_i\text{ be the ordinal outcome for the ith animal with 5 possible adoption speeds.}$$
+$$\\Y_i|\zeta_1,...,\zeta_4,\beta_1,...,\beta_6 = \left\{
+        \begin{array}{ll}
+            0 & \quad y^* < \zeta_1 \\
+            1 & \quad \zeta_1 \leq y^* < \zeta_2 \\
+            2 & \quad \zeta_2 \leq y^* < \zeta_3 \\
+            3 & \quad \zeta_3 \leq y^* < \zeta_4\\
+            4 & \quad y^*\ge \zeta_4
+        \end{array}
+    \right.$$
+$$y^*=\beta_1x_1+\beta_2x_2+...+\beta_6x_6$$where $x_n$ for n from 1 to 6 are the indicators for cat, minor injury, severe injury, sterilization, vaccination, and dewormed. And $\beta_n$ are the coefficients for these indicators.
+$$\zeta_1 \sim N(m_{01},s_{01}^2)
+\\...
+\\\beta_1 \sim N(m_1,s_1^2)
 \\...$$
 
+For this model, we will be setting a R2 prior, which is the proportion of variance in the outcome that is attributable to the coefficients in our linear model. Since we don't have any prior information, we will set a standard uniform prior on R2.
 ```{r model1, cache=TRUE}
 model1 <- stan_polr(AdoptionSpeed ~ Type+Health+Sterilized+Vaccinated+Dewormed, data =mysample, prior=R2(0.5,what=NULL),iter=5000, seed = 454)
 ```
@@ -80,11 +93,11 @@ ordinal_accuracy(my_prediction1,model_data1)
 ```
 
 The formula using the posterior means of each variable is:
-$$logit(\hat P(Y\leq k))=\beta_{k0}-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
+$$y^*=-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
 \\+0.319*Vaccinated1-0.002*Dewormed1
-\\\text{For k =0,1,2,3,4}, \beta_{k0}=0,-3.62,-1.42,-0.17,0.76\text{ respectively}$$
+\\{\zeta_1,...\zeta_4}={0,-3.62,-1.42,-0.17,0.76}\text{ respectively}$$
 The accuracy for this model is 0.244. 
-If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant. 
+If an animal is a cat, then $y^*$ will decrease by 0.291, making the animal more likely to get adopted faster than a dog, keeping all other variables constant. 
 We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.
 
 
@@ -92,14 +105,22 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 With further investigations, we have also found "AgeGroup" and "mix_breed" to be important factors (visualizations from the "More digging" section). We will include these in our models.
 
 ### Model Building
-$$
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2,3,4.}
-\\y_i|(\beta_{0k},\beta_1,...,\beta_10)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
-\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}
-\\\text{ where }x_i\text{ for i from 1 to 11 is the indicator for cat, minor/severe injury,}
-\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
-\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
-\\\beta_1\sim N(m_1,s_1^2)
+$$\text{Let }y^*\text{ be the latent variable, }\zeta\text{ be the vector with 4 cutpoints, and }Y_i\text{ be the }
+\\\text{ ordinal outcome for the ith animal with 5 possible adoption speeds.}$$
+$$\\Y_i|\zeta_1,...,\zeta_4,\beta_1,...,\beta_{10} = \left\{
+        \begin{array}{ll}
+            0 & \quad y^* < \zeta_1 \\
+            1 & \quad \zeta_1 \leq y^* < \zeta_2 \\
+            2 & \quad \zeta_2 \leq y^* < \zeta_3 \\
+            3 & \quad \zeta_3 \leq y^* < \zeta_4\\
+            4 & \quad y^*\ge \zeta_4
+        \end{array}
+    \right.$$
+$$y^*=\beta_1x_1+\beta_2x_2+...+\beta_{11}x_{11}$$
+where $x_n$ for n from 1 to 11 are the indicators for cat, minor/severe injury, sterilization, vaccination, age groups 1-5, and Mix breed.
+$$\zeta_1 \sim N(m_{01},s_{01}^2)
+\\...
+\\\beta_1 \sim N(m_1,s_1^2)
 \\...$$
 
 ```{r model2, cache=TRUE}
@@ -124,10 +145,10 @@ my_prediction2 <- posterior_predict(
 ordinal_accuracy(my_prediction2,model_data2)
 ```
 The model accuracy is 0.24.
-If an animal has a severe injury, then the odds of that animal getting adopted slower will increase by e^2.290=9.87 times than a healthy animal, keeping all other variables constant. 
+If an animal has a severe injury, then $y^*$ will increase by 2.290, making it more likely to get adopted slower than a healthy animal, keeping all other variables constant. 
 We can see that the mean of Dewormed is near zero, therefore, we will exclude Dewormed in our future model.
-If an animal is in age group 1(4 to 11 months), then the odds of that animal getting adopted slower will increase by e^0.5=1.65 times than an animal that is in age group 0 (0 to 3 months), keeping all other variables constant. Similar situations apply to other age groups as well. From this, we can reasonably infer that animals in age group 0 are the most popular. 
-If an animal is a Mixed Breed, then the odds of that animal getting adopted slower will increase by e^1.1=3.00 times than an animal that is not mixed breed, keeping all other variables constant.
+If an animal is in age group 1(4 to 11 months), then $y^*$ will increase by 0.5, making the animal more likely to get adopted slower than an animal in age group 0, keeping all other variables constant. Similar situations apply to other age groups as well. From this, we can reasonably infer that animals in age group 0 are the most popular. 
+If an animal is a Mixed Breed, then $y^*$ will increase by 1.1, making them more likely to get adopted slower than an animal that is not mixed breed, keeping all other variables constant.
 
 
 ## Making some adjustments
@@ -160,16 +181,20 @@ ordinal_accuracy2<-function(post_preds,mydata){
 
 
 ### Model Building
-$$
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
-\\y_i|(\beta_{0k},\beta_1,...,\beta_16)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
-\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
-\\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
-\\\text{sterilization, vaccination, age groups 1-5, and Mix breed.}
-\\\beta_{12}\text{ is the coefficient for the interaction term of Type*MixedBreed, and }\beta_{13}\text{ to }
-\\\beta_{16}\text{ are the coefficients for the interaction terms of AgeGroup*Sterilization.}
-\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
-\\\beta_1\sim N(m_1,s_1^2)
+$$\text{Let }y^*\text{ be the latent variable, }\zeta\text{ be the vector with 2 cutpoints, and }Y_i\text{ be the }
+\\\text{ ordinal outcome for the ith animal with 3 possible adoption speeds.}$$
+$$Y_i|\zeta_1,\zeta_2,\beta_1,...,\beta_{17} = \left\{
+        \begin{array}{ll}
+            1 & \quad y^* < \zeta_1 \\
+            2 & \quad \zeta_1 \leq y^* < \zeta_2 \\
+            3 & \quad \zeta_2 \leq y^* 
+        \end{array}
+    \right.$$
+$$ y^*=\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{17}x_2*x_9$$
+where $x_n$ for n from 1 to 11 is the indicator for cat, minor/severe injury, sterilization, vaccination, age groups 1-5, and Mix breed.$\beta_{12}$ is the coefficient for the interaction term of $Type*MixedBreed$, and $\beta_{13}$ to $\beta_{17}$ are the coefficients for the interaction terms of $AgeGroup*Sterilization$.
+$$\\\zeta_1 \sim N(m_{01},s_{01}^2)
+\\...
+\\\beta_1 \sim N(m_1,s_1^2)
 \\...$$
 
 ```{r model3, cache=TRUE}
@@ -193,4 +218,4 @@ my_prediction3 <- posterior_predict(
 
 ordinal_accuracy2(my_prediction3,model_data3)
 ```
-The model accuracy is 0.560, that's a big improvement!
+The model accuracy is 0.560, that's a big improvement! From the model summary, we notice that 0 is about one standard deviation away from the mean of vaccination's coefficient. Therefore, we will exclude vaccination in our final model. 

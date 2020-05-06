@@ -2,3 +2,15 @@
 
 ## User Input
 
+User Input in the Shiny App       | Description
+----------------------------------|-------------------------------------------------------------------------
+Age Group                         |0: 0-3 months; 1: 4-11 months; 2: 12-30 months; 3: 31-59 months; 4: 60-82 months; 5: 83 months or older
+Health                            |0: healthy; 1: minor injury; 2: severe injury
+Sterilization                     |0: not sterilized; 1: sterilized
+Mixed Breed                       |0: not mixed-breed; 1: mix-breed
+Type                              |0: dog, 1: cat
+
+
+Here's the shiny app: https://cornerz.shinyapps.io/pet-adoption-shiny/
+Enjoy!
+

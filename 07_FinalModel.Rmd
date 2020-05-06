@@ -9,16 +9,21 @@ adoption_test <- testing(adoption_split)
 ```
 
 ## Model Building 
-$$
-\text{Let }Y_i\text{ be the adoption speed with k=0,1,2.}
-\\y_i|(\beta_{0k},\beta_1,...,\beta_15)\sim Bern(\theta_{ki})\text{ where }\theta_{ki}\text{ is the }P(Y_i\leq k)\text{ for the }i^{th}\text{ animal.}
-\\log(\frac{\theta_{ki}}{1-\theta_{ki}})=logit(\hat P(Y\leq k))=\beta_{k0}+\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9
-\\\text{ where }x_i\text{ for i from 1 to 10 is the indicator for cat, minor/severe injury,}
-\\\text{sterilization, age groups 1-5, and Mix breed.}
-\\\beta_{12}\text{ is the coefficient for the interaction term of Type*MixedBreed, and }\beta_{13}\text{ to }
-\\\beta_{16}\text{ are the coefficients for the interaction terms of AgeGroup*Sterilization.}
-\\\beta_{k0}\sim N(m_{k0},s_{k0}^2)
-\\\beta_1\sim N(m_1,s_1^2)
+$$\text{Let }y^*\text{ be the latent variable, }\zeta\text{ be the vector with 2 cutpoints, and }Y_i\text{ be the }
+\\\text{ ordinal outcome for the ith animal with 3 possible adoption speeds.}$$
+$$Y_i|\zeta_1,\zeta_2,\beta_1,...,\beta_{16} = \left\{
+        \begin{array}{ll}
+            1 & \quad y^* < \zeta_1 \\
+            2 & \quad \zeta_1 \leq y^* < \zeta_2 \\
+            3 & \quad \zeta_2 \leq y^* 
+        \end{array}
+    \right.$$
+$$y^*=\beta_1x_1...+\beta_{10}x_{10}+\beta_{11}x_1*x_10+\beta_{12}x_2*x_5+...+\beta_{16}x_2*x_9$$
+where $x_n$ for n from 1 to 10 is the indicator for cat, minor/severe injury, sterilization, age groups 1-5, and Mix breed.$\beta_{11}$ is the coefficient for the interaction term of $Type*MixedBreed$, and $\beta_{12}$ to 
+$\beta_{16}$ are the coefficients for the interaction terms of $AgeGroup*Sterilization$.
+$$\\\zeta_1 \sim N(m_{01},s_{01}^2)
+\\...
+\\\beta_1 \sim N(m_1,s_1^2)
 \\...$$
 
 ```{r final_model, cache=TRUE}
@@ -52,10 +57,12 @@ final_prediction <- posterior_predict(
 ordinal_accuracy2(final_prediction,model_data)
 ```
 Our final accuracy is 55.3%.
-While the expected value of the cofficient for Type*MixedBreed is 16.4, the standard deviation is fairly large, demonstrating that the variable might be not as significant. 
-Moreover, the expected value of the cofficient for sterilized*AgeGroup are more significant for animals in agegroup 1 and 2. If an animal is in age group1 and sterilized, then it is 0.70 times more likely to get adopted slower than an animal that is not sterilized and not in agegroup1. 
+While the expected value of the cofficient for $Type*MixedBreed$ is 16.4, the standard deviation is fairly large, demonstrating that the variable might be not as significant. 
+The expected value of the cofficient for $sterilized*AgeGroup$ are more significant for animals in agegroup 1 and 2. If an animal is in age group1 and sterilized, then $y^*$ will decrease by 0.35, making it more likely to get adopted faster than an animal that is not sterilized and not in age group 1, keeping all other variables constant.
 
 ## Discussion
-Our model demonstrates that an animal's health status, sterilization records, age, type (dog/cat), and whether it's a mixed breed dog or are the factors that are most indicative of the animal's adoption speed. However, our model does not give the most ideal accuracy. One variable that I think can help improve this model is a score of the animal's appearance. The cuteness/attractiveness of the animal probably plays an important role in the animal adoption process. We see that the variabel "mixed breed" is pretty important in predicting animal adoption speed, perhaps this is because mixed breed dogs are not as cute/attractive as pure breeds. 
+Our model demonstrates that an animal's health status, sterilization records, age, type (dog/cat), and whether it's a mixed breed dog or are the factors that are most indicative of the animal's adoption speed. Our model doesn't have the most ideal accuracy, and I think this could be attributable to the fact that pet adoption is a rather personal process that varies for each person and animal.
+One variable that I think can help improve this model is a score of the animal's appearance. The cuteness/attractiveness of the animal probably plays an important role in the animal adoption process. I noticed that "Mixed Breed" dogs are more likely to get adopted slower, and I this might be due to the fact that theyir appearance are less cute/attractive than pure breed dogs. 
+
 
 

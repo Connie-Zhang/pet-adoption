@@ -1,3 +1,10 @@
 # Motivation
-I love animals! I think it would be interesting to employ Bayesian statistical tools to analyze pet adoption speeds. This can be potentially used by either shelters or individual rescuers to determine how long an animal will need to get adopted. Moreover, it can provide us insight into animal adoption. While I think adopting an animal is a really personal process that varies from person to person, animal to animal, it can be helpful if we can find some general trend. 
+I love animals! I have a dog and a cat (pictures below), and they mean the world to me. After becoming their "big sister", I have been paying more attention to animal welfare in our society. I think it would be interesting to employ Bayesian statistical tools to analyze pet adoption speeds.
+
+![](collage.png)
+
+
+There are not a lot of academic literature regarding pet adoption, but I'm sure we have all seen some news about crowded animal shelters and the saddening numbers of animals that get put down each year. I hope my project results can shine some lights on this issue.
+
+Here's a website for some animal shelter statistics: https://petpedia.co/animal-shelter-statistics/
 
