@@ -2,7 +2,7 @@ book_filename: "pet-adoption"
 language:
   ui:
     chapter_name: "Chapter "
-rmd_files: ['index.Rmd','01_Motivation.Rmd','02_DataSource.Rmd','03_DataCleaning.Rmd','04_Visualizations.Rmd',
+rmd_files: ['index.Rmd','01_Motivation.Rmd','02_DataSource.Rmd',
 '06_Modelling.Rmd','07_FinalModel.Rmd','08_ShinyApp.Rmd','09_FinalReflections.Rmd']
 delete_merged_file: True
 output_dir: "./docs"

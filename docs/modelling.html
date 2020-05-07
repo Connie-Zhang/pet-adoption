@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Modelling | STAT 454 Bayesian Statistics - Pet Adoption</title>
-  <meta name="description" content="Chapter 6 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  <title>Chapter 4 Modelling | STAT 454 Bayesian Statistics - Pet Adoption</title>
+  <meta name="description" content="Chapter 4 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
   <meta name="generator" content="bookdown 0.18.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  <meta property="og:title" content="Chapter 4 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="connie-zhang/pet-adoption" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
+  <meta name="twitter:title" content="Chapter 4 Modelling | STAT 454 Bayesian Statistics - Pet Adoption" />
   
   
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="visualizations.html"/>
+<link rel="prev" href="data-exploration.html"/>
 <link rel="next" href="final-model.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -128,51 +128,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
 <li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
-<li class="chapter" data-level="3" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>3</b> Data Source</a><ul>
-<li class="chapter" data-level="3.1" data-path="data-source.html"><a href="data-source.html#variable-table"><i class="fa fa-check"></i><b>3.1</b> Variable Table</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>4</b> Data Cleaning</a></li>
-<li class="chapter" data-level="5" data-path="visualizations.html"><a href="visualizations.html"><i class="fa fa-check"></i><b>5</b> Visualizations</a><ul>
-<li class="chapter" data-level="5.1" data-path="visualizations.html"><a href="visualizations.html#general-impressions"><i class="fa fa-check"></i><b>5.1</b> General Impressions</a></li>
-<li class="chapter" data-level="5.2" data-path="visualizations.html"><a href="visualizations.html#starting-off"><i class="fa fa-check"></i><b>5.2</b> Starting off</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="visualizations.html"><a href="visualizations.html#type"><i class="fa fa-check"></i><b>5.2.1</b> Type</a></li>
-<li class="chapter" data-level="5.2.2" data-path="visualizations.html"><a href="visualizations.html#health-related-factors"><i class="fa fa-check"></i><b>5.2.2</b> Health-related factors</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="visualizations.html"><a href="visualizations.html#more-digging"><i class="fa fa-check"></i><b>5.3</b> More digging</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="visualizations.html"><a href="visualizations.html#age-and-age-group"><i class="fa fa-check"></i><b>5.3.1</b> Age and Age Group</a></li>
-<li class="chapter" data-level="5.3.2" data-path="visualizations.html"><a href="visualizations.html#the-mysterious-breed-307"><i class="fa fa-check"></i><b>5.3.2</b> The mysterious Breed 307</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="visualizations.html"><a href="visualizations.html#other-factors"><i class="fa fa-check"></i><b>5.4</b> Other factors</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>6</b> Modelling</a><ul>
-<li class="chapter" data-level="6.1" data-path="modelling.html"><a href="modelling.html#set-up"><i class="fa fa-check"></i><b>6.1</b> Set Up</a></li>
-<li class="chapter" data-level="6.2" data-path="modelling.html"><a href="modelling.html#model-1"><i class="fa fa-check"></i><b>6.2</b> Model 1</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="modelling.html"><a href="modelling.html#model-building"><i class="fa fa-check"></i><b>6.2.1</b> Model Building</a></li>
-<li class="chapter" data-level="6.2.2" data-path="modelling.html"><a href="modelling.html#posterior-inference"><i class="fa fa-check"></i><b>6.2.2</b> Posterior Inference</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="modelling.html"><a href="modelling.html#model-2"><i class="fa fa-check"></i><b>6.3</b> Model 2</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="modelling.html"><a href="modelling.html#model-building-1"><i class="fa fa-check"></i><b>6.3.1</b> Model Building</a></li>
-<li class="chapter" data-level="6.3.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-1"><i class="fa fa-check"></i><b>6.3.2</b> Posterior Inference</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="modelling.html"><a href="modelling.html#making-some-adjustments"><i class="fa fa-check"></i><b>6.4</b> Making some adjustments</a></li>
-<li class="chapter" data-level="6.5" data-path="modelling.html"><a href="modelling.html#model-3"><i class="fa fa-check"></i><b>6.5</b> Model 3</a><ul>
-<li class="chapter" data-level="6.5.1" data-path="modelling.html"><a href="modelling.html#model-building-2"><i class="fa fa-check"></i><b>6.5.1</b> Model Building</a></li>
-<li class="chapter" data-level="6.5.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-2"><i class="fa fa-check"></i><b>6.5.2</b> Posterior Inference</a></li>
+<li class="chapter" data-level="3" data-path="data-exploration.html"><a href="data-exploration.html"><i class="fa fa-check"></i><b>3</b> Data Exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-exploration.html"><a href="data-exploration.html#data-source"><i class="fa fa-check"></i><b>3.1</b> Data Source</a></li>
+<li class="chapter" data-level="3.2" data-path="data-exploration.html"><a href="data-exploration.html#variable-table"><i class="fa fa-check"></i><b>3.2</b> Variable Table</a></li>
+<li class="chapter" data-level="3.3" data-path="data-exploration.html"><a href="data-exploration.html#visualizations"><i class="fa fa-check"></i><b>3.3</b> Visualizations</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-exploration.html"><a href="data-exploration.html#general-impressions"><i class="fa fa-check"></i><b>3.3.1</b> General Impressions</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-exploration.html"><a href="data-exploration.html#type"><i class="fa fa-check"></i><b>3.3.2</b> Type</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-exploration.html"><a href="data-exploration.html#health-related-variables"><i class="fa fa-check"></i><b>3.3.3</b> Health-related variables</a></li>
+<li class="chapter" data-level="3.3.4" data-path="data-exploration.html"><a href="data-exploration.html#age-and-age-group"><i class="fa fa-check"></i><b>3.3.4</b> Age and Age Group</a></li>
+<li class="chapter" data-level="3.3.5" data-path="data-exploration.html"><a href="data-exploration.html#the-mysterious-breed-307"><i class="fa fa-check"></i><b>3.3.5</b> The mysterious Breed 307</a></li>
+<li class="chapter" data-level="3.3.6" data-path="data-exploration.html"><a href="data-exploration.html#other-factors"><i class="fa fa-check"></i><b>3.3.6</b> Other factors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="final-model.html"><a href="final-model.html"><i class="fa fa-check"></i><b>7</b> Final Model</a><ul>
-<li class="chapter" data-level="7.1" data-path="final-model.html"><a href="final-model.html#model-building-3"><i class="fa fa-check"></i><b>7.1</b> Model Building</a></li>
-<li class="chapter" data-level="7.2" data-path="final-model.html"><a href="final-model.html#diagnostic-plots"><i class="fa fa-check"></i><b>7.2</b> Diagnostic Plots</a></li>
-<li class="chapter" data-level="7.3" data-path="final-model.html"><a href="final-model.html#posterior-inference-3"><i class="fa fa-check"></i><b>7.3</b> Posterior Inference</a></li>
-<li class="chapter" data-level="7.4" data-path="final-model.html"><a href="final-model.html#discussion"><i class="fa fa-check"></i><b>7.4</b> Discussion</a></li>
+<li class="chapter" data-level="4" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>4</b> Modelling</a><ul>
+<li class="chapter" data-level="4.1" data-path="modelling.html"><a href="modelling.html#set-up"><i class="fa fa-check"></i><b>4.1</b> Set Up</a></li>
+<li class="chapter" data-level="4.2" data-path="modelling.html"><a href="modelling.html#model-1"><i class="fa fa-check"></i><b>4.2</b> Model 1</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="modelling.html"><a href="modelling.html#model-building"><i class="fa fa-check"></i><b>4.2.1</b> Model Building</a></li>
+<li class="chapter" data-level="4.2.2" data-path="modelling.html"><a href="modelling.html#posterior-inference"><i class="fa fa-check"></i><b>4.2.2</b> Posterior Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="shiny-apps.html"><a href="shiny-apps.html"><i class="fa fa-check"></i><b>8</b> Shiny Apps!</a><ul>
-<li class="chapter" data-level="8.1" data-path="shiny-apps.html"><a href="shiny-apps.html#user-input"><i class="fa fa-check"></i><b>8.1</b> User Input</a></li>
+<li class="chapter" data-level="4.3" data-path="modelling.html"><a href="modelling.html#model-2"><i class="fa fa-check"></i><b>4.3</b> Model 2</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="modelling.html"><a href="modelling.html#model-building-1"><i class="fa fa-check"></i><b>4.3.1</b> Model Building</a></li>
+<li class="chapter" data-level="4.3.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-1"><i class="fa fa-check"></i><b>4.3.2</b> Posterior Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="final-reflections.html"><a href="final-reflections.html"><i class="fa fa-check"></i><b>9</b> Final Reflections</a><ul>
-<li class="chapter" data-level="9.1" data-path="final-reflections.html"><a href="final-reflections.html#advice-for-first-time-capstone-people"><i class="fa fa-check"></i><b>9.1</b> Advice for first time capstone people</a></li>
-<li class="chapter" data-level="9.2" data-path="final-reflections.html"><a href="final-reflections.html#acknowledgements"><i class="fa fa-check"></i><b>9.2</b> Acknowledgements</a></li>
-<li class="chapter" data-level="9.3" data-path="final-reflections.html"><a href="final-reflections.html#citations"><i class="fa fa-check"></i><b>9.3</b> Citations</a></li>
+<li class="chapter" data-level="4.4" data-path="modelling.html"><a href="modelling.html#making-some-adjustments"><i class="fa fa-check"></i><b>4.4</b> Making some adjustments</a></li>
+<li class="chapter" data-level="4.5" data-path="modelling.html"><a href="modelling.html#model-3"><i class="fa fa-check"></i><b>4.5</b> Model 3</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="modelling.html"><a href="modelling.html#model-building-2"><i class="fa fa-check"></i><b>4.5.1</b> Model Building</a></li>
+<li class="chapter" data-level="4.5.2" data-path="modelling.html"><a href="modelling.html#posterior-inference-2"><i class="fa fa-check"></i><b>4.5.2</b> Posterior Inference</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="final-model.html"><a href="final-model.html"><i class="fa fa-check"></i><b>5</b> Final Model</a><ul>
+<li class="chapter" data-level="5.1" data-path="final-model.html"><a href="final-model.html#model-building-3"><i class="fa fa-check"></i><b>5.1</b> Model Building</a></li>
+<li class="chapter" data-level="5.2" data-path="final-model.html"><a href="final-model.html#diagnostic-plots"><i class="fa fa-check"></i><b>5.2</b> Diagnostic Plots</a></li>
+<li class="chapter" data-level="5.3" data-path="final-model.html"><a href="final-model.html#posterior-inference-3"><i class="fa fa-check"></i><b>5.3</b> Posterior Inference</a></li>
+<li class="chapter" data-level="5.4" data-path="final-model.html"><a href="final-model.html#discussion"><i class="fa fa-check"></i><b>5.4</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shiny-apps.html"><a href="shiny-apps.html"><i class="fa fa-check"></i><b>6</b> Shiny Apps!</a><ul>
+<li class="chapter" data-level="6.1" data-path="shiny-apps.html"><a href="shiny-apps.html#user-input"><i class="fa fa-check"></i><b>6.1</b> User Input</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-reflections.html"><a href="final-reflections.html"><i class="fa fa-check"></i><b>7</b> Final Reflections</a><ul>
+<li class="chapter" data-level="7.1" data-path="final-reflections.html"><a href="final-reflections.html#advice-for-first-time-capstone-people"><i class="fa fa-check"></i><b>7.1</b> Advice for first time capstone people</a></li>
+<li class="chapter" data-level="7.2" data-path="final-reflections.html"><a href="final-reflections.html#acknowledgements"><i class="fa fa-check"></i><b>7.2</b> Acknowledgements</a></li>
+<li class="chapter" data-level="7.3" data-path="final-reflections.html"><a href="final-reflections.html#citations"><i class="fa fa-check"></i><b>7.3</b> Citations</a></li>
 </ul></li>
 </ul>
 
@@ -192,37 +188,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="modelling" class="section level1">
-<h1><span class="header-section-number">Chapter 6</span> Modelling</h1>
+<h1><span class="header-section-number">Chapter 4</span> Modelling</h1>
 <p>Have you ever wondered what to do when you want to predict more than 2 categories, and these categories seem to be ordered? Ordinal logistic regression is the way to go! In the case of pet adoption speeds, we have 5 categories, with group 0 being the fastest adoption speed, 5 being the slowest.</p>
 <p>For ordered logistic regression, we assume that the relationship between each pair of outcome groups is the same. This is called the proportional odds assumption. In other words, the coefficient for variable A will be the same regardless of whether it’s describing the relationship between outcome group 1 and 2, or outcome group 2 and 3.</p>
 <div id="set-up" class="section level2">
-<h2><span class="header-section-number">6.1</span> Set Up</h2>
+<h2><span class="header-section-number">4.1</span> Set Up</h2>
 <p>First, let’s load some essential package.</p>
 <p>We will also create a sample of 1000 for faster modelling.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">load</span>(<span class="st">&quot;adoption.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb27-3" title="3">mysample &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb27-4" title="4">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">load</span>(<span class="st">&quot;adoption.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3">mysample &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb10-4" title="4">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
 <p>Below is the function I wrote to compute the accuracy of each model.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">ordinal_accuracy&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
-<a class="sourceLine" id="cb28-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
-<a class="sourceLine" id="cb28-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
-<a class="sourceLine" id="cb28-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
-<a class="sourceLine" id="cb28-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb28-6" title="6">    }</a>
-<a class="sourceLine" id="cb28-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
-<a class="sourceLine" id="cb28-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed)</a>
-<a class="sourceLine" id="cb28-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
-<a class="sourceLine" id="cb28-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>))</a>
-<a class="sourceLine" id="cb28-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb28-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
-<a class="sourceLine" id="cb28-13" title="13">}</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">ordinal_accuracy&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb11-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb11-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb11-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb11-6" title="6">    }</a>
+<a class="sourceLine" id="cb11-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb11-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed)</a>
+<a class="sourceLine" id="cb11-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb11-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb11-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb11-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
+<a class="sourceLine" id="cb11-13" title="13">}</a></code></pre></div>
 </div>
 <div id="model-1" class="section level2">
-<h2><span class="header-section-number">6.2</span> Model 1</h2>
+<h2><span class="header-section-number">4.2</span> Model 1</h2>
 <p>From the “Starting off” section, we see that health factors and type can be useful factors in predicting adoption speed.</p>
 <div id="model-building" class="section level3">
-<h3><span class="header-section-number">6.2.1</span> Model Building</h3>
+<h3><span class="header-section-number">4.2.1</span> Model Building</h3>
 <p><span class="math display">\[\text{For Bayesian Ordinal Regression, we introduce a latent variable }y^*,\text{ modeled as a linear function with our chosen predictors,}
 \\\text{ the vector }\zeta\text{ with 4 cutpoints, and let }Y_i\text{ be the ordinal outcome for the ith animal with 5 possible adoption speeds.}\]</span>
 <span class="math display">\[\\Y_i|\zeta_1,...,\zeta_4,\beta_1,...,\beta_6 = \left\{
@@ -240,12 +236,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \\\beta_1 \sim N(m_1,s_1^2)
 \\...\]</span></p>
 <p>For this model, we will be setting a R2 prior, which is the proportion of variance in the outcome that is attributable to the coefficients in our linear model. Since we don’t have any prior information, we will set a standard uniform prior on R2.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">model1 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>Dewormed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">model1 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>Dewormed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference" class="section level3">
-<h3><span class="header-section-number">6.2.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">model1_summary&lt;-<span class="kw">summary</span>(model1)</a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model1_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<h3><span class="header-section-number">4.2.2</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">model1_summary&lt;-<span class="kw">summary</span>(model1)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model1_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                     mean         mcse          sd         10%          50%
 ## Type1       -0.291472332 1.067107e-03 0.128917172 -0.45490997 -0.291619825
 ## Health1      0.441523473 3.135560e-03 0.350471059 -0.01079189  0.437815394
@@ -276,15 +272,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean_PPD:1   0.23029557 10018 0.9999413
 ## mean_PPD:2   0.31650246 10341 1.0001028
 ## mean_PPD:3   0.24014778 10322 1.0000672</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb32-2" title="2">model_data1&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb32-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb32-5" title="5">my_prediction1 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb32-6" title="6">  model1, </a>
-<a class="sourceLine" id="cb32-7" title="7">  <span class="dt">newdata =</span> model_data1)</a>
-<a class="sourceLine" id="cb32-8" title="8"></a>
-<a class="sourceLine" id="cb32-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction1,model_data1)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb15-2" title="2">model_data1&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,Dewormed) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb15-5" title="5">my_prediction1 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb15-6" title="6">  model1, </a>
+<a class="sourceLine" id="cb15-7" title="7">  <span class="dt">newdata =</span> model_data1)</a>
+<a class="sourceLine" id="cb15-8" title="8"></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction1,model_data1)</a></code></pre></div>
 <pre><code>## [1] 0.2438424</code></pre>
 <p>The formula using the posterior means of each variable is:
 <span class="math display">\[y^*=-0.291*Type+0.442*Health1+2.290*Health2+0.691*Sterilized1
@@ -296,10 +292,10 @@ We can see that the mean of Dewormed is near zero, therefore, we will exclude De
 </div>
 </div>
 <div id="model-2" class="section level2">
-<h2><span class="header-section-number">6.3</span> Model 2</h2>
+<h2><span class="header-section-number">4.3</span> Model 2</h2>
 <p>With further investigations, we have also found “AgeGroup” and “mix_breed” to be important factors (visualizations from the “More digging” section). We will include these in our models.</p>
 <div id="model-building-1" class="section level3">
-<h3><span class="header-section-number">6.3.1</span> Model Building</h3>
+<h3><span class="header-section-number">4.3.1</span> Model Building</h3>
 <p><span class="math display">\[\text{Let }y^*\text{ be the latent variable, }\zeta\text{ be the vector with 4 cutpoints, and }Y_i\text{ be the }
 \\\text{ ordinal outcome for the ith animal with 5 possible adoption speeds.}\]</span>
 <span class="math display">\[\\Y_i|\zeta_1,...,\zeta_4,\beta_1,...,\beta_{10} = \left\{
@@ -317,12 +313,12 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 11 are the indica
 \\...
 \\\beta_1 \sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">model2 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>MixedBreed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">model2 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>Health<span class="op">+</span>Sterilized<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>MixedBreed, <span class="dt">data =</span>mysample, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span><span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference-1" class="section level3">
-<h3><span class="header-section-number">6.3.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">model2_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model2)</a>
-<a class="sourceLine" id="cb35-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model2_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<h3><span class="header-section-number">4.3.2</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">model2_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model2)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model2_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                    mean         mcse          sd         10%         50%
 ## Type1        0.48778366 1.707863e-03 0.221427458  0.19976369  0.48937164
 ## Health1      0.47969467 3.195916e-03 0.348317802  0.03818016  0.47965636
@@ -363,15 +359,15 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 11 are the indica
 ## mean_PPD:1   0.22627737 10820 1.0000967
 ## mean_PPD:2   0.31630170 10755 0.9999731
 ## mean_PPD:3   0.23965937 10976 0.9998674</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb37-2" title="2">model_data2&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb37-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb37-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb37-5" title="5">my_prediction2 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb37-6" title="6">  model2, </a>
-<a class="sourceLine" id="cb37-7" title="7">  <span class="dt">newdata =</span> model_data2)</a>
-<a class="sourceLine" id="cb37-8" title="8"></a>
-<a class="sourceLine" id="cb37-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction2,model_data2)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb20-2" title="2">model_data2&lt;-mysample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb20-5" title="5">my_prediction2 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb20-6" title="6">  model2, </a>
+<a class="sourceLine" id="cb20-7" title="7">  <span class="dt">newdata =</span> model_data2)</a>
+<a class="sourceLine" id="cb20-8" title="8"></a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="kw">ordinal_accuracy</span>(my_prediction2,model_data2)</a></code></pre></div>
 <pre><code>## [1] 0.2372263</code></pre>
 <p>The model accuracy is 0.24.
 If an animal has a severe injury, then <span class="math inline">\(y^*\)</span> will increase by 2.290, making it more likely to get adopted slower than a healthy animal, keeping all other variables constant.
@@ -381,31 +377,31 @@ If an animal is a Mixed Breed, then <span class="math inline">\(y^*\)</span> wil
 </div>
 </div>
 <div id="making-some-adjustments" class="section level2">
-<h2><span class="header-section-number">6.4</span> Making some adjustments</h2>
+<h2><span class="header-section-number">4.4</span> Making some adjustments</h2>
 <p>Our accuracy is less than ideal. One reason behind this could be due to how adoption speed is grouped. Group 0 is being adopted the day of, group 1 is being adopted between 2-7 days, and group 2 is being adopted between 8-30 days. The difference between group 0,1, and 2 can be due to chance.
 Therefore, I’ve decided to group groups 0,1, and 2 into 1 group. In our future models, we will be predicting for 3 adoption speed groups.</p>
 </div>
 <div id="model-3" class="section level2">
-<h2><span class="header-section-number">6.5</span> Model 3</h2>
+<h2><span class="header-section-number">4.5</span> Model 3</h2>
 <p>In this model, we will be adding two interaction terms. The figure below shows that the younger the animal is, the less likely it will get sterilized, since the procedure can’t be done when they are young. I have also realized that only dogs can be marked as mixed breed. Therefore, we will add two interaction terms: Type<span class="math inline">\(*\)</span>MixedBreed and AgeGroup<span class="math inline">\(*\)</span>Sterilization.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb39-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb39-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">ordinal_accuracy2&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
-<a class="sourceLine" id="cb40-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
-<a class="sourceLine" id="cb40-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
-<a class="sourceLine" id="cb40-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
-<a class="sourceLine" id="cb40-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb40-6" title="6">    }</a>
-<a class="sourceLine" id="cb40-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
-<a class="sourceLine" id="cb40-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
-<a class="sourceLine" id="cb40-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
-<a class="sourceLine" id="cb40-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
-<a class="sourceLine" id="cb40-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb40-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
-<a class="sourceLine" id="cb40-13" title="13">}</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">mysample2 &lt;-<span class="st"> </span>adoption[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(adoption), <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb22-3" title="3">   <span class="dt">replace=</span><span class="ot">FALSE</span>),]</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">ordinal_accuracy2&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb23-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb23-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb23-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb23-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb23-6" title="6">    }</a>
+<a class="sourceLine" id="cb23-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb23-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
+<a class="sourceLine" id="cb23-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb23-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb23-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb23-12" title="12">  <span class="kw">print</span>(<span class="kw">sum</span>(compare<span class="op">$</span>accuracy)<span class="op">/</span><span class="kw">length</span>(post_preds))</a>
+<a class="sourceLine" id="cb23-13" title="13">}</a></code></pre></div>
 <div id="model-building-2" class="section level3">
-<h3><span class="header-section-number">6.5.1</span> Model Building</h3>
+<h3><span class="header-section-number">4.5.1</span> Model Building</h3>
 <p><span class="math display">\[\text{Let }y^*\text{ be the latent variable, }\zeta\text{ be the vector with 2 cutpoints, and }Y_i\text{ be the }
 \\\text{ ordinal outcome for the ith animal with 3 possible adoption speeds.}\]</span>
 <span class="math display">\[Y_i|\zeta_1,\zeta_2,\beta_1,...,\beta_{17} = \left\{
@@ -421,12 +417,12 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 11 is the indicat
 \\...
 \\\beta_1 \sim N(m_1,s_1^2)
 \\...\]</span></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed_Group <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span> <span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">model3 &lt;-<span class="st"> </span><span class="kw">stan_polr</span>(AdoptionSpeed_Group <span class="op">~</span><span class="st"> </span>Type<span class="op">+</span>MixedBreed<span class="op">+</span>Health<span class="op">+</span>Vaccinated<span class="op">+</span>AgeGroup<span class="op">+</span>Sterilized, <span class="dt">data=</span>mysample2, <span class="dt">prior=</span><span class="kw">R2</span>(<span class="fl">0.5</span>,<span class="dt">what=</span> <span class="ot">NULL</span>),<span class="dt">iter=</span><span class="dv">5000</span>, <span class="dt">seed =</span> <span class="dv">454</span>)</a></code></pre></div>
 </div>
 <div id="posterior-inference-2" class="section level3">
-<h3><span class="header-section-number">6.5.2</span> Posterior Inference</h3>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
-<a class="sourceLine" id="cb42-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
+<h3><span class="header-section-number">4.5.2</span> Posterior Inference</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">model3_summary&lt;-<span class="st"> </span><span class="kw">summary</span>(model3)</a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="kw">head</span>(<span class="kw">as.data.frame</span>(model3_summary), <span class="dv">-2</span>)</a></code></pre></div>
 <pre><code>##                  mean         mcse         sd         10%       50%       90%
 ## Type1       0.3451827 0.0019710823 0.23476422  0.04353292 0.3425949 0.6421678
 ## MixedBreed1 0.9758830 0.0022277932 0.24084355  0.66773156 0.9752728 1.2843762
@@ -459,15 +455,15 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 11 is the indicat
 ## 2|3         12497 0.9998815
 ## mean_PPD:1  10033 1.0001560
 ## mean_PPD:2  10002 0.9998024</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
-<a class="sourceLine" id="cb44-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
-<a class="sourceLine" id="cb44-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
-<a class="sourceLine" id="cb44-6" title="6">  model3,</a>
-<a class="sourceLine" id="cb44-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
-<a class="sourceLine" id="cb44-8" title="8"></a>
-<a class="sourceLine" id="cb44-9" title="9"><span class="kw">ordinal_accuracy2</span>(my_prediction3,model_data3)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">set.seed</span>(<span class="dv">454</span>)</a>
+<a class="sourceLine" id="cb27-2" title="2">model_data3&lt;-mysample2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(AdoptionSpeed_Group, Type,Health,Sterilized,Vaccinated,AgeGroup,MixedBreed) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb27-5" title="5">my_prediction3 &lt;-<span class="st"> </span><span class="kw">posterior_predict</span>(</a>
+<a class="sourceLine" id="cb27-6" title="6">  model3,</a>
+<a class="sourceLine" id="cb27-7" title="7">  <span class="dt">newdata =</span> model_data3)</a>
+<a class="sourceLine" id="cb27-8" title="8"></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="kw">ordinal_accuracy2</span>(my_prediction3,model_data3)</a></code></pre></div>
 <pre><code>## [1] 0.5596107</code></pre>
 <p>The model accuracy is 0.560, that’s a big improvement! From the model summary, we notice that 0 is about one standard deviation away from the mean of vaccination’s coefficient. Therefore, we will exclude vaccination in our final model.</p>
 
@@ -479,7 +475,7 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 11 is the indicat
           </div>
         </div>
       </div>
-<a href="visualizations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-exploration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="final-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

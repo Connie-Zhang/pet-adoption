@@ -6,7 +6,6 @@ library(dplyr)
 library(ggplot2)
 ```
 
-
 ## General Impressions
 From the bar graph, we can see that it's very rare for animals to get adopted on the day of listing. First, let’s look at pet adoption speed in general. We can see very little animals are adopted on the day that they arrived at the shelter, roughly 1/5 of the animals are adopted in less than a week, 1/5 of the animals are adopted between 2-3 months. 1/4 of the animals are adopted between 8-30 days, and slightly more than 1/4 of the animals are adopted after 100 days of being listed. 
 What is causing the difference between adoption speeds?

@@ -1,7 +1,16 @@
 # Final Reflections
 
 ## Advice for first time capstone people
+1. 
 
 ## Acknowledgements
+I want to thank Dr. Alicia Johnson for teaching me everything I know about Bayesian Statistics, offering me a ton of useful feedbacks, and helping me through all the challenges I have encountered for this project. 
+I also want to thank Dr. Brianna Heggeseth for introducing me to the beauty of statistics, teaching me how to clean data, and helping me understand ordinal logistic regression.
+Finally, I want to thank Esther Swehla and Christina Cai for reading my work and giving me some good ideas about the project. 
 
 ## Citations
+“PetFinder.my Adoption Prediction.” Kaggle. Accessed April 19, 2020. https://www.kaggle.com/c/petfinder-adoption-prediction/data.
+“PetFinder.my Adoption Prediction Discussion 86581.” Kaggle. Accessed April 19, 2020. https://www.kaggle.com/c/petfinder-adoption-prediction/discussion/86581
+Gabry, Jonah, and Ben Goodrich. Estimating Ordinal Regression Models with rstanarm, February 11, 2020. https://cran.r-project.org/web/packages/rstanarm/vignettes/polr.html.
+Gabry, Jonah, and Ben Goodrich. Estimating Regularized Linear Models with rstanarm, February 11, 2020. https://cran.r-project.org/web/packages/rstanarm/vignettes/lm.html.
+UCLA. “ORDINAL LOGISTIC REGRESSION | R DATA ANALYSIS EXAMPLES.” IDRE Stats. Accessed April 19, 2020. https://stats.idre.ucla.edu/r/dae/ordinal-logistic-regression/.
