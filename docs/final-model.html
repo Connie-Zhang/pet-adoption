@@ -166,7 +166,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="shiny-apps.html"><a href="shiny-apps.html#user-input"><i class="fa fa-check"></i><b>6.1</b> User Input</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="final-reflections.html"><a href="final-reflections.html"><i class="fa fa-check"></i><b>7</b> Final Reflections</a><ul>
-<li class="chapter" data-level="7.1" data-path="final-reflections.html"><a href="final-reflections.html#advice-for-first-time-capstone-people"><i class="fa fa-check"></i><b>7.1</b> Advice for first time capstone people</a></li>
+<li class="chapter" data-level="7.1" data-path="final-reflections.html"><a href="final-reflections.html#advice-for-first-time-capstone-people"><i class="fa fa-check"></i><b>7.1</b> Advice for first time capstone people</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="final-reflections.html"><a href="final-reflections.html#individual-work"><i class="fa fa-check"></i><b>7.1.1</b> Individual work</a></li>
+<li class="chapter" data-level="7.1.2" data-path="final-reflections.html"><a href="final-reflections.html#group-work"><i class="fa fa-check"></i><b>7.1.2</b> Group work</a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="final-reflections.html"><a href="final-reflections.html#acknowledgements"><i class="fa fa-check"></i><b>7.2</b> Acknowledgements</a></li>
 <li class="chapter" data-level="7.3" data-path="final-reflections.html"><a href="final-reflections.html#citations"><i class="fa fa-check"></i><b>7.3</b> Citations</a></li>
 </ul></li>
@@ -280,13 +283,42 @@ where <span class="math inline">\(x_n\)</span> for n from 1 to 10 is the indicat
 <a class="sourceLine" id="cb36-7" title="7">  <span class="dt">newdata =</span> model_data)</a>
 <a class="sourceLine" id="cb36-8" title="8"><span class="kw">ordinal_accuracy2</span>(final_prediction,model_data)</a></code></pre></div>
 <pre><code>## [1] 0.5531591</code></pre>
-<p>Our final accuracy is 55.3%.
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">ordinal_predictions&lt;-<span class="cf">function</span>(post_preds,mydata){</a>
+<a class="sourceLine" id="cb38-2" title="2">  post_preds&lt;-<span class="kw">as.data.frame</span>(post_preds)</a>
+<a class="sourceLine" id="cb38-3" title="3">  results&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb38-4" title="4">  <span class="cf">for</span> (j <span class="cf">in</span> (<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(post_preds))){</a>
+<a class="sourceLine" id="cb38-5" title="5">    results[j]&lt;-<span class="kw">as.numeric</span>(<span class="kw">tail</span>(<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(post_preds[,j]))))[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb38-6" title="6">    }</a>
+<a class="sourceLine" id="cb38-7" title="7">  results&lt;-<span class="kw">as.data.frame</span>(results)</a>
+<a class="sourceLine" id="cb38-8" title="8">  compare&lt;-<span class="kw">cbind</span>(results,mydata<span class="op">$</span>AdoptionSpeed_Group)</a>
+<a class="sourceLine" id="cb38-9" title="9">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">results=</span><span class="kw">as.numeric</span>(results))</a>
+<a class="sourceLine" id="cb38-10" title="10">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>=<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>))</a>
+<a class="sourceLine" id="cb38-11" title="11">  compare&lt;-compare <span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">accuracy=</span><span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(results)<span class="op">==</span><span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb38-12" title="12">  compare&lt;-compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">pred=</span><span class="kw">ifelse</span>(accuracy<span class="op">==</span><span class="dv">1</span>,<span class="kw">as.numeric</span>(<span class="st">`</span><span class="dt">mydata$AdoptionSpeed_Group</span><span class="st">`</span>),<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb38-13" title="13">  compare <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(pred)</a>
+<a class="sourceLine" id="cb38-14" title="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">ordinal_predictions</span>(final_prediction,model_data)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##    pred     n
+##   &lt;dbl&gt; &lt;int&gt;
+## 1     0  1761
+## 2     1  1791
+## 3     3   389</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">model_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(AdoptionSpeed_Group)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   AdoptionSpeed_Group     n
+##   &lt;fct&gt;               &lt;int&gt;
+## 1 1                    2017
+## 2 2                     923
+## 3 3                    1001</code></pre>
+<p>Our final accuracy is 55.3%. We can see that our model successfully predicts most of the animals in “Adoption Speed 1”, about 1/3 of the animals in “Adoption Speed 3”, and did not predict any for “Adoption Speed 2”. This could be partially attributable to the fact that we have more animals in group 1.
 While the expected value of the cofficient for <span class="math inline">\(Type*MixedBreed\)</span> is 16.4, the standard deviation is fairly large, demonstrating that the variable might be not as significant.
 The expected value of the cofficient for <span class="math inline">\(sterilized*AgeGroup\)</span> are more significant for animals in agegroup 1 and 2. If an animal is in age group1 and sterilized, then <span class="math inline">\(y^*\)</span> will decrease by 0.35, making it more likely to get adopted faster than an animal that is not sterilized and not in age group 1, keeping all other variables constant.</p>
 </div>
 <div id="discussion" class="section level2">
 <h2><span class="header-section-number">5.4</span> Discussion</h2>
 <p>Our model demonstrates that an animal’s health status, sterilization records, age, type (dog/cat), and whether it’s a mixed breed dog or are the factors that are most indicative of the animal’s adoption speed. Our model doesn’t have the most ideal accuracy, and I think this could be attributable to the fact that pet adoption is a rather personal process that varies for each person and animal.
+For future models, it would be helpful to see if we can downsample when modeling, this might raise the accuracy for “Adoption Speed 2”.
 One variable that I think can help improve this model is a score of the animal’s appearance. The cuteness/attractiveness of the animal probably plays an important role in the animal adoption process. I noticed that “Mixed Breed” dogs are more likely to get adopted slower, and I this might be due to the fact that theyir appearance are less cute/attractive than pure breed dogs.</p>
 
 </div>

@@ -1,7 +1,26 @@
 # Final Reflections
 
 ## Advice for first time capstone people
-1. 
+
+### Individual work
+
+1. **Take some time to choose the data**: having good data will make it so much easier for you to come up with a plausible research question and choose an appropriate model.
+
+2. **Have a plan and stay on top of it**: the way I usually do it is to create a checklist everyday for things I want to accomplish for the project. This keeps me motivated and on track for the project. It's even better to come up with a general outline in the beginning and start filling each item on the outline with more specific to-dos. 
+
+3. **Ask for help**: you should definitely try to figure things out by yourself first, but if you feel stuck, ask for help! Your group members and proffessor are there for you :)
+
+4. **Be confident and persevere**: I can't even count the number of times I wanted to give up as I was doing this project. I started doubting my abilities, blaming myself for not being smarter, and eventually trying to convince myself to do a simpler version of the project. But then I look back at all the work I have already done for the project, and I know that I have learned a semester of Bayesian statistics, so I must have what it takes to complete the project. Be confident in your abilities and persevere!
+
+5. **Take care of yourself!** I feel like this is *the* most important advice anyone can give to another person. If you are not in a healthy state both physically and mentally, you won't be able to do the work well. I find that taking a walk with my dog, eatting good food, and keeping myself hydrated is super helpful. My "guilty pleasure" for rewinding after a day of hard work is to watch really cheesy movies or tv shows, like the "twilight" saga and "pretty little liars". 
+
+### Group work
+
+1. **Know how your group members work and adjust your expectations accordingly**: for example, if your group members are people who turn things in on the day it's due, then don't stress if you think they are working too slow :)
+
+2. **Be prepared to take on more responsibilities**: I know that we often try to divide the work as equally as possible when it comes to group projects, but things often don't work out the way we expect it to. It could be because one of your group member is slacking off or new tasks came up for the project. Just be mentally prepared that you would probably do more work than you were planning to do.
+
+3. **Communicate**: I think this is the most important rule for group work; make sure you and your group members are on the same page regarding how to split the work and expectations for the project.  
 
 ## Acknowledgements
 I want to thank Dr. Alicia Johnson for teaching me everything I know about Bayesian Statistics, offering me a ton of useful feedbacks, and helping me through all the challenges I have encountered for this project. 
@@ -10,7 +29,11 @@ Finally, I want to thank Esther Swehla and Christina Cai for reading my work and
 
 ## Citations
 “PetFinder.my Adoption Prediction.” Kaggle. Accessed April 19, 2020. https://www.kaggle.com/c/petfinder-adoption-prediction/data.
+
 “PetFinder.my Adoption Prediction Discussion 86581.” Kaggle. Accessed April 19, 2020. https://www.kaggle.com/c/petfinder-adoption-prediction/discussion/86581
+
 Gabry, Jonah, and Ben Goodrich. Estimating Ordinal Regression Models with rstanarm, February 11, 2020. https://cran.r-project.org/web/packages/rstanarm/vignettes/polr.html.
+
 Gabry, Jonah, and Ben Goodrich. Estimating Regularized Linear Models with rstanarm, February 11, 2020. https://cran.r-project.org/web/packages/rstanarm/vignettes/lm.html.
+
 UCLA. “ORDINAL LOGISTIC REGRESSION | R DATA ANALYSIS EXAMPLES.” IDRE Stats. Accessed April 19, 2020. https://stats.idre.ucla.edu/r/dae/ordinal-logistic-regression/.
